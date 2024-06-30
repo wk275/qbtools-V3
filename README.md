@@ -77,9 +77,9 @@ services:
       - MQTT_USER=appmos                                        ## qbmos mosquitto user
       - MQTT_PASSWORD=NCJDeceoXZBUCBZib28EZD9yxshxzoç2703E      ## qbmos mosquitto password
       - INFLUXDB2_URL=http://influxdbV2:8086
-      - INFLUXDB2_ORG=nodered
-      - INFLUXDB2_BUCKET=qbus
-      - INFLUXDB2_TOKEN=K3I6Lr5FefjtHQztHvdVPm5QjiihbnfCnWqYuXV-QK-EwL82MNJlUiZMyJJn90z_ldrccuMj7IvpU3iu1rzO7A==
+      - INFLUXDB2_ORG=                                          ## fill in after setup of influxdb
+      - INFLUXDB2_BUCKET=                                       ## fill in after setup of influxdb
+      - INFLUXDB2_TOKEN=                                        ## fill in after setup of influxdb
     ports:
       - "51881:1880"
     volumes:
@@ -109,10 +109,6 @@ services:
       - ./influxdbV2/data:/var/lib/influxdb2
       - ./influxdbV2/etc:/etc/influxdb2
     environment:
-      - INFLUXDB_ADMIN="admin"
-      - INFLUXDB_ADMIN_PASSWORD="qbinflux@10"
-      - INFLUXDB_USER="qb-influx"
-      - INFLUXDB_USER_PASSWORD="qbinflux@10"
       - TZ=Europe/Brussels
 
 EOF
