@@ -1,5 +1,5 @@
 # qbtools-V3
-Qbtools V3 is a collection of 3 docker images. Together they deliver an environment for integrating QBUS with Homeassistant, Influxdb & Grafana, Node-red and http devices. 
+Qbtools V3 is a collection of 3 docker images. Together they deliver an environment for integrating QBUS with Homeassistant, Influxdb & Grafana, Node-red and http devices.
 
 ![](https://img.shields.io/badge/release-v3.0-blue)                 
 ![](https://img.shields.io/badge/arch-arm64-yellow)
@@ -17,16 +17,84 @@ Qbtools V3 is a collection of 3 docker images. Together they deliver an environm
 ![image](https://github.com/wk275/qbtools-V3/assets/55239601/12a4894d-7ab4-4881-ab23-3de5541ac820)
 
 ## Docker images 
-
-
 - ### <a href="https://hub.docker.com/r/wk275/qbmos">wk275/qbmos</a>
 qbmos is a customized mosquitto server. Instead of defining a user and password via the standard mosquitto tools, you can define them directly in the docker-compose.yaml file environment variables MQTT_USER and MQTT_PASSWORD.
 
 - ### <a href="https://hub.docker.com/r/wk275/qbusmqtt">wk275/qbusmqtt</a>
-Customized Qbus mqtt gateway for docker. (details qbusmqtt see https://github.com/QbusKoen/QbusMqtt-installer)
+qbusmqtt is a docker image for the Qbus mqtt gateway. (for details about the default qbusmqttgw installation see https://github.com/QbusKoen/QbusMqtt-installer)
 
 - ### <a href="https://hub.docker.com/r/wk275/qbtools">wk275/qbtools</a>
-Interface between Qbus devices, Homeassistant devices, InfluxDB/Grafana statistics, Node-red and http devices
+qbTools is the interface between Qbus devices, Homeassistant devices, InfluxDB/Grafana statistics, Node-red and http devices
+#### qbtools features:
+  - create a HA entity for the following qbus outputs:
+    
+    |Qbus|Home Assistant|
+    |----|--------------|
+    |Dimmer|Light|
+    |On/Off|Switch|
+    |Shutter|Cover|
+    |Thermostat |	Climate (heating only)|
+    |Scene|Scene|
+  
+  - create extra HA entities via HA_parms.js file. You'll find an example file in the HA_parms directory after starting the qbtools container.
+
+    e.g.
+      - a sensor for a qbus thermostat
+      - a binary_sensor for a garage door
+      - a qbus virtual thermostat with a temperature sensor of a non qbus device
+        
+    ````
+      "qbusHa": {
+        "entities": [
+            {
+                "name_regex": "^Virtual_Binary_sensor1$",   // add a HA bynary_sensor for a qbus switch/toggle output with name "Virtual_Binary_sensor1"
+                "attributes":
+                {
+                    "entity_type": "binary_sensor",
+                    "device_class": "garage_door",          // see https://www.home-assistant.io/integrations/binary_sensor/
+                    "payload_on": true,
+                    "payload_off": false
+                },
+            },
+            {
+                "name_regex": "^Virtual_HVAC_Therm$",         // add a HA sensor for a qbus thermostat (3 sensors will be created: Virtual_HVAC_Therm.currRegime, Virtual_HVAC_Therm.currTemp and Virtual_HVAC_Therm.setTemp)
+                "attributes":
+                {
+                    "entity_type": "sensor",
+                    "icon": "mdi:thermometer"                 // set icon initially to mdi:thermometer. THis can be changed in the ha.regexPost section below if necessary
+                },
+            },
+            {
+                // *********************************************************
+                // prerequisites for a virtual qbus thermostat/shelly device
+                // *********************************************************
+                /*
+                Create in Qbus system manager a 'virtual' thermostat with e.g a name BA_HVAC_Therm
+                Install a shellymotion wifi device in the specific room.
+                Configurate this shelly device to communicate with the Homeassistant mqtt server
+                */
+                "name_regex": "^BA_HVAC_Therm$",              // create a thermostat which uses the temperature sensor of a shelly motion device
+                "attributes":
+                {
+                    "entity_type": "climate",
+                    "current_temperature_template": '{{value_json.tmp.value}}',                     // shellymotion topic property tmp.value
+                    "current_temperature_topic": "shellies/shellymotion/status"                     // shellymotion topic
+                }
+            },
+            {
+                "name_regex": "^DO_HVAC_Therm$",              // create a thermostat which uses the temperature sensor of a shelly ht device
+                "attributes":
+                {
+                    "entity_type": "climate",
+                    "current_temperature_template": '{{value}}',                                    // use the value of the shelly topic
+                    "current_temperature_topic": "shellies/shellyht/sensor/temperature"             // shelly ht topic
+                }
+            },
+
+        ],
+    },
+    ````
+
 
 ## How to install:
 - Open a login session on your server and execute code below.
