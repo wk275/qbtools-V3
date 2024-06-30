@@ -100,7 +100,7 @@ services:
     depends_on:
       - qbmos
     image: influxdb:latest
-    container_name: influxdbV2-buildx
+    container_name: influxdbV2-v3
     restart: unless-stopped
     ports:
       - "58086:8086"
