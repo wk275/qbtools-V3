@@ -95,7 +95,7 @@ services:
     volumes:
       - "./homeassistant/config:/config"
       - "./homeassistant/local:/.local"
-
+<BR/>
 ## **********************************************************************
 ## in Home assistant go to Setup > Devices and services > Add integration
 ## type in MQTT and click on it
@@ -105,7 +105,8 @@ services:
 ## - Password =  NCJDeceoXZBUCBZib28EZD9yxshxzoç2703E
 ## hit Next
 ## **********************************************************************
-  influxdbV2:
+</BR>
+ influxdbV2:
     depends_on:
       - qbmos
     image: influxdb:latest
