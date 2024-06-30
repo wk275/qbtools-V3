@@ -76,10 +76,10 @@ services:
       - MQTT_PORT=1883
       - MQTT_USER=appmos                                        ## qbmos mosquitto user
       - MQTT_PASSWORD=NCJDeceoXZBUCBZib28EZD9yxshxzoç2703E      ## qbmos mosquitto password
-      - INFLUXDB2_URL=http://influxdbV2:8086        
-      - INFLUXDB2_ORG=                                          ## create an influx organization and copy it
-      - INFLUXDB2_BUCKET=                                       ## create an influx bucket and copy it
-      - INFLUXDB2_TOKEN=                                        ## generate an influx API token and copy it
+      - INFLUXDB2_URL=http://influxdbV2:8086
+      - INFLUXDB2_ORG=nodered
+      - INFLUXDB2_BUCKET=qbus
+      - INFLUXDB2_TOKEN=K3I6Lr5FefjtHQztHvdVPm5QjiihbnfCnWqYuXV-QK-EwL82MNJlUiZMyJJn90z_ldrccuMj7IvpU3iu1rzO7A==
     ports:
       - "51881:1880"
     volumes:
@@ -120,27 +120,37 @@ docker compose up -d
 ````
 
 ### Home assistant customization:
-  - Login to Home assistant on http://<homeassistant server ip address>:58123
+  - Login to Home assistant on http://homeassistant_server_ip_address:58123
   - After setup go to Setup > Devices and services > Add integration
   - Add MQTT with following parameters
     - Broker = qbmos
     - Port = 1883
     - User name = appmos
     - Password =  NCJDeceoXZBUCBZib28EZD9yxshxzoç2703E
-  - hit Next
-  - restart all docker containers
+  - hit send & complete
+  - #### restart all docker containers ! After a while all Qbus entities states will be refreshed.
 
 ### InfluxDB v2 customization:
   - Login to INfluxDB on http://<Influxdb server ip address>:58086
+  - Hit buttin "get started"
   - Fill in following items
     - username: choose one
     - password: choose one & remember it :-)
     - confirm password: same as password
     - initial organization name: e.g nodered
-    - initial bucket name: e.g qbus
-    - copy the token provided 
+    - initial bucket name: init_bucket
+  - Hit continue
+  - go to API tokens and hit generate API TOKEN > All Access API Token
+    - choose a name e.g. qbus
+    - hit save
+    - copy the token via <CNTRL C> and not via button COPT TO CLIPBOARD
+    - close window
+  - go to buckets
+    - hit button create bucket
+    - name e.g. qbus
+    - hit create 
 
-- copy organization, bucket and token to the specific environment variables in the docker-compose.yaml file under section qbtools
-
+  - save above parameters organization, bucket and token to the specific environment variables in the docker-compose.yaml file under section qbtools
+  - #### restart all docker containers !
 # Remarks
 ⚠️ wk275/qbtools, wk275/qbmos & wk275/qbusmqtt are not officially supported by Qbus.
