@@ -126,6 +126,6 @@ Login to Home assistant and go to Setup > Devices and services > Add integration
   - User name = appmos
   - Password =  NCJDeceoXZBUCBZib28EZD9yxshxzoç2703E
 > hit Next
-
+> restart all docker containers
 # Remarks
 ⚠️ wk275/qbtools, wk275/qbmos & wk275/qbusmqtt are not officially supported by Qbus.
