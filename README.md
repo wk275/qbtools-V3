@@ -17,7 +17,7 @@ Interface between QBUS devices, Home Assistant devices, InfluxDb v2/Grafana stat
 ![image](https://github.com/wk275/qbtools-V3/assets/55239601/12a4894d-7ab4-4881-ab23-3de5541ac820)
 
 ## Docker images 
-Qbtools V3 is a collection of 3 docker images. It's a modular system. You just take the images you need and provide the specific environment variables.
+Qbtools V3 is a collection of 3 docker images. It's a modular system. Just take the images you need and provide the specific environment variables in a docker-compose.yaml file.
 
 - ### <a href="https://hub.docker.com/r/wk275/qbmos">wk275/qbmos</a>
 Customized mosquitto server with support for docker environment variables.
