@@ -1,5 +1,5 @@
 # qbtools-V3
-Interface between QBUS devices, Home Assistant devices, InfluxDb v2/Grafana statistics and HTTP devices.
+Qbtools V3 is a collection of 3 docker images. Together they deliver an environment for integrating QBUS with Homeassistant, Influxdb & Grafana, Node-red and http devices. 
 
 ![](https://img.shields.io/badge/release-v3.0-blue)                 
 ![](https://img.shields.io/badge/arch-arm64-yellow)
@@ -7,8 +7,8 @@ Interface between QBUS devices, Home Assistant devices, InfluxDb v2/Grafana stat
 ![](https://img.shields.io/badge/-i386-yellow) <br/>
 ![](https://img.shields.io/badge/interfaces-qbus_devices-green)
 ![](https://img.shields.io/badge/-home_assistant_devices-green)
-![](https://img.shields.io/badge/-node--red-green)
 ![](https://img.shields.io/badge/-influxDB_v2/grafana_statistics-green)
+![](https://img.shields.io/badge/-node--red-green)
 ![](https://img.shields.io/badge/-http_devices-green) <br/>
 ![](https://img.shields.io/badge/prerequisites-qbus-red)
 ![](https://img.shields.io/badge/-docker-red)
@@ -17,10 +17,10 @@ Interface between QBUS devices, Home Assistant devices, InfluxDb v2/Grafana stat
 ![image](https://github.com/wk275/qbtools-V3/assets/55239601/12a4894d-7ab4-4881-ab23-3de5541ac820)
 
 ## Docker images 
-Qbtools V3 is a collection of 3 docker images. It's a modular system. Just take the images you need and provide the specific environment variables in a docker-compose.yaml file.
+
 
 - ### <a href="https://hub.docker.com/r/wk275/qbmos">wk275/qbmos</a>
-qbmos is a customized mosquitto server. Instead of defining a user and password via the mosquitto tools, you can define them via the MQTT_USER and MQTT_PASSWORD environment variables in the docker-compos.yaml file.
+qbmos is a customized mosquitto server. Instead of defining a user and password via the standard mosquitto tools, you can define them directly in the docker-compose.yaml file environment variables MQTT_USER and MQTT_PASSWORD.
 
 - ### <a href="https://hub.docker.com/r/wk275/qbusmqtt">wk275/qbusmqtt</a>
 Customized Qbus mqtt gateway for docker. (details qbusmqtt see https://github.com/QbusKoen/QbusMqtt-installer)
