@@ -36,7 +36,7 @@ It will
 ##### Please choose your own user names and passwords and modify all MQTT_USER and MQTT_PASSWORD environment variables conform !
 
 ````
-cd mkdir ~/qbtools-v3
+mkdir ~/qbtools-v3
 cd ~/qbtools-v3
 cat > docker-compose.yaml << EOF
 services:
