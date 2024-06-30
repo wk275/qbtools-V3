@@ -7,28 +7,25 @@ Interface between QBUS devices, Home Assistant, InfluxDb v2/Grafana and HTTP dev
 ![](https://img.shields.io/badge/-amd64-yellow)
 ![](https://img.shields.io/badge/-i386-yellow)
 
-![](https://img.shields.io/badge/-qbus-green)
-![](https://img.shields.io/badge/-home_assistant-green)
-![](https://img.shields.io/badge/-influxDB_v2/grafana-green)
-![](https://img.shields.io/badge/-http-green)
-![](https://img.shields.io/badge/-shelly-green)
+![](https://img.shields.io/badge/interface-qbus_devices-green)
+![](https://img.shields.io/badge/-home_assistant_devices-green)
+![](https://img.shields.io/badge/-influxDB_v2/grafana_statistics-green)
+![](https://img.shields.io/badge/-http_devices-green)
 
 ![image](https://github.com/wk275/qbtools-V3/assets/55239601/a0e55525-3bd6-4f78-9bab-c3cfd865ef1f)
 
 
 ## Features 
-Qbtools V3 has 3 docker images.
+Qbtools V3 is a collection of 3 docker images.
 
-https://hub.docker.com/r/wk275/qbmos
-
-https://hub.docker.com/r/wk275/qbmos
-
-https://hub.docker.com/r/wk275/qbtools
-
-
-### wk275/qbmos:
-Customized mosquitto server.
+### <a href="https://hub.docker.com/r/wk275/qbmos">wk275/qbmos</a>
+Customized mosquitto MQTT server.
 Supports MQTT_USER and MQTT_PASSWORD environment variables in docker-compose.yaml.
+
+### <a href="https://hub.docker.com/r/wk275/qbusmqtt">wk275/qbusmqtt</a>
+
+### <a href="https://hub.docker.com/r/wk275/qbtools">wk275/qbtools</a>
+
 
 ## qbusmqtt: 
 
