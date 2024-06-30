@@ -1,5 +1,5 @@
 # qbtools-V3
-Interface between QBUS devices, Home Assistant, InfluxDb v2/Grafana and HTTP devices.
+Interface between QBUS devices, Home Assistant devices, InfluxDb v2/Grafana statistics and HTTP devices.
 
 ![](https://img.shields.io/badge/release-v3.0-blue) <br/>                  
 ![](https://img.shields.io/badge/arch-arm64-yellow)
@@ -7,20 +7,28 @@ Interface between QBUS devices, Home Assistant, InfluxDb v2/Grafana and HTTP dev
 ![](https://img.shields.io/badge/-i386-yellow) <br/>
 ![](https://img.shields.io/badge/interfaces-qbus_devices-green)
 ![](https://img.shields.io/badge/-home_assistant_devices-green)
+![](https://img.shields.io/badge/-node--red-green)
 ![](https://img.shields.io/badge/-influxDB_v2/grafana_statistics-green)
 ![](https://img.shields.io/badge/-http_devices-green) <br/>
 ![](https://img.shields.io/badge/prerequisites-docker-red)
 ![](https://img.shields.io/badge/-docker--compose-red)
 
-![image](https://github.com/wk275/qbtools-V3/assets/55239601/a0e55525-3bd6-4f78-9bab-c3cfd865ef1f)
-
+![image](https://github.com/wk275/qbtools-V3/assets/55239601/12a4894d-7ab4-4881-ab23-3de5541ac820)
 
 ## Features 
 Qbtools V3 is a collection of 3 docker images.
+- qbmos: customized mosquitto server
+- qbusmqtt: customized QBus mqtt gateway for docker. (details see https://github.com/QbusKoen/QbusMqtt-installer)
+- qbtools: interface between Qbus devices, Homeassistant devices, InfluxDB/Grafana statistics, Node-red and http devices 
 
 ### <a href="https://hub.docker.com/r/wk275/qbmos">wk275/qbmos</a>
-Customized mosquitto MQTT server.
-Supports MQTT_USER and MQTT_PASSWORD environment variables in docker-compose.yaml.
+Supports environment variables in docker-compose.yaml.
+
+| env variable  | description |
+| ------------- | ------------- |
+| MQTT_USER     | defines a mosquitto user at the start of the docker container  |
+| MQTT_PASSWORD  | defines a mosquitto password at the start of the docker container|
+
 
 ### <a href="https://hub.docker.com/r/wk275/qbusmqtt">wk275/qbusmqtt</a>
 
