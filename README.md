@@ -17,76 +17,114 @@ Interface between QBUS devices, Home Assistant devices, InfluxDb v2/Grafana stat
 
 ## Features 
 Qbtools V3 is a collection of 3 docker images.
-- qbmos: customized mosquitto server
-- qbusmqtt: customized Qbus mqtt gateway for docker. (details qbusmqtt see https://github.com/QbusKoen/QbusMqtt-installer)
-- qbtools: interface between Qbus devices, Homeassistant devices, InfluxDB/Grafana statistics, Node-red and http devices 
-
-### <a href="https://hub.docker.com/r/wk275/qbmos">wk275/qbmos</a>
+- ### <a href="https://hub.docker.com/r/wk275/qbmos">wk275/qbmos</a>
 Customized mosquitto server with support for docker environment variables.
 
-Docker-compose.yaml
+- ### <a href="https://hub.docker.com/r/wk275/qbusmqtt">wk275/qbusmqtt</a>
+Customized Qbus mqtt gateway for docker. (details qbusmqtt see https://github.com/QbusKoen/QbusMqtt-installer)
+
+- ### <a href="https://hub.docker.com/r/wk275/qbtools">wk275/qbtools</a>
+Interface between Qbus devices, Homeassistant devices, InfluxDB/Grafana statistics, Node-red and http devices
+
+### How to install:
+Open a login session on your server and execute code below.
+It will 
+- create a directoy qbtools-v3 in your home-directory
+- create a docker-compose.yaml file in this directory
+- start-up docker containers
+
+##### Please choose your own user names and passwords and modify all MQTT_USER and MQTT_PASSWORD environment variables conform !
 
 ````
+cd mkdir ~/qbtools-v3
+cd ~/qbtools-v3
+cat > docker-compose.yaml << EOF
+services:
   qbmos:
     image: wk275/qbmos:latest
     environment:
-      - TZ=Europe/Brussels                                        ## defines timezone
-      - MQTT_USER=appmos                                          ## sets the qbmos mosquitto user at runtime. Replace it with your own user name!
-      - MQTT_PASSWORD=KLCOejzpJDpzjc310C0293!çàé                  ## sets the qbmos mosquitto password at runtime. Replace it with your own password!
-    container_name: qbmos
+      - TZ=Europe/Brussels
+      - MQTT_USER=appmos                                        ## qbmos mosquitto user
+      - MQTT_PASSWORD=NCJDeceoXZBUCBZib28EZD9yxshxzoç2703E      ## qbmos mosquitto password
+    container_name: qbmos-V3
     restart: unless-stopped
     ports:
-      - "11883:1883"                                               ## defines external port as 11883 and container/internal port as 1883
-                                                                   ## this mqtt server will be reachable at <server ip address>:11883
-                                                                   ## whithin a docker-compose.yaml file it will be available at
-                                                                   ## 0.0.0.0:1883 or at qbmos:1883
+      - "51883:1883"
     volumes:
-      - ./mosquitto/data:/mosquitto/data                           ## persist data to external directory. This is neccesary to keep homassistant definitions and MQTT entries in sync! 
-````
+      - ./mosquitto/data:/mosquitto/data
 
+  qbusmqtt:
+    image: wk275/qbusmqtt:latest
+    container_name: qbusmqtt-V3
+    restart: unless-stopped
+    network_mode: host
+    environment:
+      - TZ=Europe/Brussels
+      - MQTT_HOST=0.0.0.0
+      - MQTT_PORT=1883
+      - MQTT_USER=appmos                                        ## qbmos mosquitto user
+      - MQTT_PASSWORD=NCJDeceoXZBUCBZib28EZD9yxshxzoç2703E      ## qbmos mosquitto password
 
-### <a href="https://hub.docker.com/r/wk275/qbusmqtt">wk275/qbusmqtt</a>
-Customized docker installation of QBUSMQTTGW
-
-| docker env variable  | description |
-| ------------- | ------------- |
-| MQTT_HOST     | MQTT server ip address. Use 0.0.0.0 for container ip address |
-| MQTT_PORT     | MQTT server port |
-| MQTT_USER     | MQTT user
-| MQTT_PASSWORD | MQTT password|
-
-### <a href="https://hub.docker.com/r/wk275/qbtools">wk275/qbtools</a>
-#### features
-- interface homeassistant
-
+  qbtools:
+    image: wk275/qbtools:latest
+    container_name: qbtools-V3
+    restart: unless-stopped
+    environment:
       - TZ=Europe/Brussels
       - MQTT_HOST=qbmos
       - MQTT_PORT=1883
       - MQTT_USER=appmos                                        ## qbmos mosquitto user
       - MQTT_PASSWORD=NCJDeceoXZBUCBZib28EZD9yxshxzoç2703E      ## qbmos mosquitto password
       - INFLUXDB2_URL=http://influxdbV2:8086
-      - INFLUXDB2_ORG=nodered
-      - INFLUXDB2_BUCKET=qbus
-      - INFLUXDB2_TOKEN=WOL3wRhMHvtK791JM0EPODDpXzIbYZL9hnmQjrOcSB6fVX2kA8O1qgTJ5v-1T2LI3cf3ViJ2G7LVIwLp3hhzfA==
+      - INFLUXDB2_ORG=                                          ## create an influx organization nodered and copy it
+      - INFLUXDB2_BUCKET=                                       ## create an influx bucket and copy it
+      - INFLUXDB2_TOKEN=                                        ## generate an influx API token and copy it
+    ports:
+      - "51881:1880"
+    volumes:
+      - ./HA_parms:/HA_parms
 
+ homeassistant:
+    image: ghcr.io/home-assistant/home-assistant:latest
+    container_name: homeassistant-buildx
+    restart: unless-stopped
+    environment:
+      - TZ=Europe/Brussels
+    ports:
+      - "58123:8123"
+    volumes:
+      - "./homeassistant/config:/config"
+      - "./homeassistant/local:/.local"
 
+## **********************************************************************
+## in Home assistant go to Setup > Devices and services > Add integration
+## type in MQTT and click on it
+## - Broker = qbmos
+## - Port = 1883
+## - User name = appmos
+## - Password =  NCJDeceoXZBUCBZib28EZD9yxshxzoç2703E
+## hit Next
+## **********************************************************************
+  influxdbV2:
+    depends_on:
+      - qbmos
+    image: influxdb:latest
+    container_name: influxdbV2-buildx
+    restart: unless-stopped
+    ports:
+      - "8086:8086"
+    volumes:
+      - ./influxdbV2/data:/var/lib/influxdb2
+      - ./influxdbV2/etc:/etc/influxdb2
+    environment:
+      - INFLUXDB_ADMIN="admin"
+      - INFLUXDB_ADMIN_PASSWORD="qbinflux@10"
+      - INFLUXDB_USER="qb-influx"
+      - INFLUXDB_USER_PASSWORD="qbinflux@10"
+      - TZ=Europe/Brussels
 
-## qbusmqtt: 
-
-Following softwares are installed in docker containers.
-- mosquitto (message broker)
-- node-red (logic processing & creation of Home assistant entities)
-- home-assistant (dashboard)
-- influxDBv2 (database on 64bit OS architecture systems)  to store qbus and mqtt statistics
-- grafana (charts)
-- qbusmqtt (gateway between qbus and mqtt broker
-
-The environment is tested on following systems:
-- arm64 - raspberry pi 4B- 4GB memory - 64 bit OS - Debian GNU/Linux 11 (bullseye)
-- arm64 - odroid C4 4-GB memory - 64 bit OS - Ubuntu 22.04.3 LTS (jammy)
-- amd64 - X64 64 bit OS - Ubuntu 22.04.3 LTS (jammy)
-
-## System setup
-
+EOF
+docker-compose up -d
+````
 # Remarks
 ⚠️ wk275/qbtools, wk275/qbmos & wk275/qbusmqtt are not officially supported by Qbus.
