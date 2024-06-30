@@ -3,21 +3,21 @@ Interface between QBUS devices, Home Assistant, InfluxDb v2/Grafana and HTTP dev
 
 ![](https://img.shields.io/badge/release-v3.0-blue)                  
 
-![](https://img.shields.io/badge/arch-arm64-green)
-![](https://img.shields.io/badge/-amd64-green)
-![](https://img.shields.io/badge/-i386-green)
+![](https://img.shields.io/badge/arch-arm64-yellow)
+![](https://img.shields.io/badge/-amd64-yellow)
+![](https://img.shields.io/badge/-i386-yellow)
 
-![](https://img.shields.io/badge/-qbus-yellow)
-![](https://img.shields.io/badge/-home_assistant-yellow)
-![](https://img.shields.io/badge/-influxDB_v2/grafana-yellow)
-![](https://img.shields.io/badge/-http-yellow)
-![](https://img.shields.io/badge/-shelly-yellow)
+![](https://img.shields.io/badge/-qbus-green)
+![](https://img.shields.io/badge/-home_assistant-green)
+![](https://img.shields.io/badge/-influxDB_v2/grafana-green)
+![](https://img.shields.io/badge/-http-green)
+![](https://img.shields.io/badge/-shelly-green)
 
 ![image](https://github.com/wk275/qbtools-V3/assets/55239601/a0e55525-3bd6-4f78-9bab-c3cfd865ef1f)
 
 
 ## Features 
-Qbtools V3 has docker images.
+Qbtools V3 has 3 docker images.
 
 https://hub.docker.com/r/wk275/qbmos
 
