@@ -46,7 +46,7 @@ services:
       - TZ=Europe/Brussels
       - MQTT_USER=appmos                                        ## qbmos mosquitto user
       - MQTT_PASSWORD=NCJDeceoXZBUCBZib28EZD9yxshxzoç2703E      ## qbmos mosquitto password
-    container_name: qbmos-V3
+    container_name: qbmos-v3
     restart: unless-stopped
     ports:
       - "51883:1883"
@@ -55,27 +55,27 @@ services:
 
   qbusmqtt:
     image: wk275/qbusmqtt:latest
-    container_name: qbusmqtt-V3
+    container_name: qbusmqtt-v3
     restart: unless-stopped
     network_mode: host
     environment:
       - TZ=Europe/Brussels
       - MQTT_HOST=0.0.0.0
-      - MQTT_PORT=1883
+      - MQTT_PORT=51883
       - MQTT_USER=appmos                                        ## qbmos mosquitto user
       - MQTT_PASSWORD=NCJDeceoXZBUCBZib28EZD9yxshxzoç2703E      ## qbmos mosquitto password
 
   qbtools:
     image: wk275/qbtools:latest
-    container_name: qbtools-V3
+    container_name: qbtools-v3
     restart: unless-stopped
     environment:
       - TZ=Europe/Brussels
-      - MQTT_HOST=qbmos
-      - MQTT_PORT=1883
+      - MQTT_HOST=0.0.0.0
+      - MQTT_PORT=51883
       - MQTT_USER=appmos                                        ## qbmos mosquitto user
       - MQTT_PASSWORD=NCJDeceoXZBUCBZib28EZD9yxshxzoç2703E      ## qbmos mosquitto password
-      - INFLUXDB2_URL=http://influxdbV2:8086
+      - INFLUXDB2_URL=http://0.0.0.0:58086        
       - INFLUXDB2_ORG=                                          ## create an influx organization nodered and copy it
       - INFLUXDB2_BUCKET=                                       ## create an influx bucket and copy it
       - INFLUXDB2_TOKEN=                                        ## generate an influx API token and copy it
@@ -86,7 +86,7 @@ services:
 
   homeassistant:
     image: ghcr.io/home-assistant/home-assistant:latest
-    container_name: homeassistant-buildx
+    container_name: homeassistant-v3
     restart: unless-stopped
     environment:
       - TZ=Europe/Brussels
@@ -95,6 +95,7 @@ services:
     volumes:
       - "./homeassistant/config:/config"
       - "./homeassistant/local:/.local"
+
   influxdbV2:
     depends_on:
       - qbmos
@@ -102,7 +103,7 @@ services:
     container_name: influxdbV2-buildx
     restart: unless-stopped
     ports:
-      - "8086:8086"
+      - "58086:8086"
     volumes:
       - ./influxdbV2/data:/var/lib/influxdb2
       - ./influxdbV2/etc:/etc/influxdb2
@@ -116,16 +117,15 @@ services:
 EOF
 docker compose up -d
 ````
-- Homeassistan customization:
-## **********************************************************************
-## in Home assistant go to Setup > Devices and services > Add integration
-## type in MQTT and click on it
-## - Broker = qbmos
-## - Port = 1883
-## - User name = appmos
-## - Password =  NCJDeceoXZBUCBZib28EZD9yxshxzoç2703E
-## hit Next
-## **********************************************************************
+
+### - Home assistant customization:
+Login to Home assistant and go to Setup > Devices and services > Add integration
+> Add MQTT with following parameters
+  -  Broker = 0.0.0.0
+  - Port = 1883
+  - User name = appmos
+  - Password =  NCJDeceoXZBUCBZib28EZD9yxshxzoç2703E
+> hit Next
 
 # Remarks
 ⚠️ wk275/qbtools, wk275/qbmos & wk275/qbusmqtt are not officially supported by Qbus.
