@@ -56,3 +56,6 @@ dpkg --print-architecture
 ```
 
 ## System setup
+
+# Remarks
+⚠️ wk275/qbtools, wk275/qbmos & wk275/qbusmqtt are not officially supported by Qbus.
