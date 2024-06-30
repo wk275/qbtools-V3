@@ -1,7 +1,17 @@
 # qbtools-V3
 Qbus interface to Home Assistant, Influxdb/Grafana, HTTP
 
-![alt text](https://img.shields.io/badge/release-3.0-blue)
+![](https://img.shields.io/badge/release-v3.0-blue)                  ![](https://img.shields.io/badge/arch-arm64-green)
+![](https://img.shields.io/badge/-amd64-green)
+![](https://img.shields.io/badge/-i386-green)
+
+![](https://img.shields.io/badge/interfaces-influxDB_v2-yellow)
+![](https://img.shields.io/badge/-http-yellow)
+![](https://img.shields.io/badge/-mqtt-yellow)
+
+## Architecture
+
+![image](https://github.com/wk275/qbtools-V3/assets/55239601/04bdea6d-3dda-4afd-96b2-ee9724ebd9d5)
 
 ## Features 
 tooling environment for qbus and mqtt.
