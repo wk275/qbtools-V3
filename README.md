@@ -148,5 +148,21 @@ docker compose up -d
 
   - save above parameters organization, bucket and token to the specific environment variables in the docker-compose.yaml file under section qbtools
   - ##### restart all docker containers !
+
+## log files
+Just type docker logs "container-id" -f
+````
+docker logs qbtools-v3 -f
+
+## HTTP interface
+The interface will take parameters in a flat object format.
+E.g a flat oblect of a normal mqqt msg will be
+payload= {"id":"UL167","properties":{"currRegime":"COMFORT"},"type":"event"}
+payload.id="UL167",
+
+### qbusGet
+qbusGet
+### qbusSet
+````
 # Remarks
 ⚠️ wk275/qbtools, wk275/qbmos & wk275/qbusmqtt are not officially supported by Qbus.
