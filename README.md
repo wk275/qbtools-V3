@@ -71,8 +71,8 @@ services:
     restart: unless-stopped
     environment:
       - TZ=Europe/Brussels
-      - MQTT_HOST=0.0.0.0
-      - MQTT_PORT=51883
+      - MQTT_HOST=qbmos
+      - MQTT_PORT=1883
       - MQTT_USER=appmos                                        ## qbmos mosquitto user
       - MQTT_PASSWORD=NCJDeceoXZBUCBZib28EZD9yxshxzoç2703E      ## qbmos mosquitto password
       - INFLUXDB2_URL=http://0.0.0.0:58086        
@@ -121,7 +121,7 @@ docker compose up -d
 ### - Home assistant customization:
 Login to Home assistant and go to Setup > Devices and services > Add integration
 > Add MQTT with following parameters
-  -  Broker = 0.0.0.0
+  - Broker = 0.0.0.0
   - Port = 1883
   - User name = appmos
   - Password =  NCJDeceoXZBUCBZib28EZD9yxshxzoç2703E
