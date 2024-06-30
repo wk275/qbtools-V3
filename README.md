@@ -1,7 +1,7 @@
 # qbtools-V3
 Interface between QBUS devices, Home Assistant devices, InfluxDb v2/Grafana statistics and HTTP devices.
 
-![](https://img.shields.io/badge/release-v3.0-blue) <br/>                  
+![](https://img.shields.io/badge/release-v3.0-blue)                 
 ![](https://img.shields.io/badge/arch-arm64-yellow)
 ![](https://img.shields.io/badge/-amd64-yellow)
 ![](https://img.shields.io/badge/-i386-yellow) <br/>
@@ -10,12 +10,13 @@ Interface between QBUS devices, Home Assistant devices, InfluxDb v2/Grafana stat
 ![](https://img.shields.io/badge/-node--red-green)
 ![](https://img.shields.io/badge/-influxDB_v2/grafana_statistics-green)
 ![](https://img.shields.io/badge/-http_devices-green) <br/>
-![](https://img.shields.io/badge/prerequisites-docker-red)
+![](https://img.shields.io/badge/prerequisites-qbus-red)
+![](https://img.shields.io/badge/-docker-red)
 ![](https://img.shields.io/badge/-docker--compose-red)
 
 ![image](https://github.com/wk275/qbtools-V3/assets/55239601/12a4894d-7ab4-4881-ab23-3de5541ac820)
 
-## Features 
+## Docker images 
 Qbtools V3 is a collection of 3 docker images.
 - ### <a href="https://hub.docker.com/r/wk275/qbmos">wk275/qbmos</a>
 Customized mosquitto server with support for docker environment variables.
@@ -29,11 +30,11 @@ Interface between Qbus devices, Homeassistant devices, InfluxDB/Grafana statisti
 ### How to install:
 - Open a login session on your server and execute code below.
 It will 
-- create a directoy qbtools-v3 in your home-directory
-- create a docker-compose.yaml file in this directory
-- start-up docker containers
+  - create a directoy qbtools-v3 in your home-directory
+  - create a docker-compose.yaml file in this directory
+  - start-up docker containers
 
-##### Please choose your own user names and passwords and modify all MQTT_USER and MQTT_PASSWORD environment variables conform !
+- ##### Please choose your own user names and passwords and modify all MQTT_USER and MQTT_PASSWORD environment variables conform !
 
 ````
 mkdir ~/qbtools-v3
@@ -118,14 +119,28 @@ EOF
 docker compose up -d
 ````
 
-### - Home assistant customization:
-Login to Home assistant and go to Setup > Devices and services > Add integration
-> Add MQTT with following parameters
-  - Broker = 0.0.0.0
-  - Port = 1883
-  - User name = appmos
-  - Password =  NCJDeceoXZBUCBZib28EZD9yxshxzoç2703E
-> hit Next
-> restart all docker containers
+### Home assistant customization:
+  - Login to Home assistant on http://<homeassistant server ip address>:58123
+  - After setup go to Setup > Devices and services > Add integration
+  - Add MQTT with following parameters
+    - Broker = qbmos
+    - Port = 1883
+    - User name = appmos
+    - Password =  NCJDeceoXZBUCBZib28EZD9yxshxzoç2703E
+  - hit Next
+  - restart all docker containers
+
+### INfluxDB v2 customization:
+  - Login to INfluxDB on http://<Influxdb server ip address>:58086
+  - Fill in following items
+    - username: choose one
+    - password: choose one & remember it :-)
+    - confirm password: same as password
+    - initial organization name: e.g nodered
+    - initial bucket name: e.g qbus
+    - copy the token provided 
+
+- all above parameters shoudl be copied to the docker-compose.yaml file in the section qbtools
+
 # Remarks
 ⚠️ wk275/qbtools, wk275/qbmos & wk275/qbusmqtt are not officially supported by Qbus.
