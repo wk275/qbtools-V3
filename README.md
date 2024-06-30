@@ -1,16 +1,16 @@
 # qbtools-V3
 Interface between QBUS devices, Home Assistant, InfluxDb v2/Grafana and HTTP devices.
 
-![](https://img.shields.io/badge/release-v3.0-blue)                  
-
+![](https://img.shields.io/badge/release-v3.0-blue) <br/>                  
 ![](https://img.shields.io/badge/arch-arm64-yellow)
 ![](https://img.shields.io/badge/-amd64-yellow)
-![](https://img.shields.io/badge/-i386-yellow)
-
-![](https://img.shields.io/badge/interface-qbus_devices-green)
+![](https://img.shields.io/badge/-i386-yellow) <br/>
+![](https://img.shields.io/badge/interfaces-qbus_devices-green)
 ![](https://img.shields.io/badge/-home_assistant_devices-green)
 ![](https://img.shields.io/badge/-influxDB_v2/grafana_statistics-green)
-![](https://img.shields.io/badge/-http_devices-green)
+![](https://img.shields.io/badge/-http_devices-green) <br/>
+![](https://img.shields.io/badge/prerequisites-docker-red)
+![](https://img.shields.io/badge/-docker--compose-red)
 
 ![image](https://github.com/wk275/qbtools-V3/assets/55239601/a0e55525-3bd6-4f78-9bab-c3cfd865ef1f)
 
