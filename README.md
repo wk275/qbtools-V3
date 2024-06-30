@@ -27,7 +27,7 @@ Customized Qbus mqtt gateway for docker. (details qbusmqtt see https://github.co
 Interface between Qbus devices, Homeassistant devices, InfluxDB/Grafana statistics, Node-red and http devices
 
 ### How to install:
-Open a login session on your server and execute code below.
+- Open a login session on your server and execute code below.
 It will 
 - create a directoy qbtools-v3 in your home-directory
 - create a docker-compose.yaml file in this directory
@@ -84,7 +84,7 @@ services:
     volumes:
       - ./HA_parms:/HA_parms
 
- homeassistant:
+  homeassistant:
     image: ghcr.io/home-assistant/home-assistant:latest
     container_name: homeassistant-buildx
     restart: unless-stopped
@@ -95,18 +95,7 @@ services:
     volumes:
       - "./homeassistant/config:/config"
       - "./homeassistant/local:/.local"
-<BR/>
-## **********************************************************************
-## in Home assistant go to Setup > Devices and services > Add integration
-## type in MQTT and click on it
-## - Broker = qbmos
-## - Port = 1883
-## - User name = appmos
-## - Password =  NCJDeceoXZBUCBZib28EZD9yxshxzoç2703E
-## hit Next
-## **********************************************************************
-</BR>
- influxdbV2:
+  influxdbV2:
     depends_on:
       - qbmos
     image: influxdb:latest
@@ -127,5 +116,16 @@ services:
 EOF
 docker compose up -d
 ````
+- Homeassistan customization:
+## **********************************************************************
+## in Home assistant go to Setup > Devices and services > Add integration
+## type in MQTT and click on it
+## - Broker = qbmos
+## - Port = 1883
+## - User name = appmos
+## - Password =  NCJDeceoXZBUCBZib28EZD9yxshxzoç2703E
+## hit Next
+## **********************************************************************
+
 # Remarks
 ⚠️ wk275/qbtools, wk275/qbmos & wk275/qbusmqtt are not officially supported by Qbus.
