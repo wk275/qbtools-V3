@@ -76,8 +76,8 @@ services:
       - MQTT_PORT=1883
       - MQTT_USER=appmos                                        ## qbmos mosquitto user
       - MQTT_PASSWORD=NCJDeceoXZBUCBZib28EZD9yxshxzoç2703E      ## qbmos mosquitto password
-      - INFLUXDB2_URL=http://0.0.0.0:58086        
-      - INFLUXDB2_ORG=                                          ## create an influx organization nodered and copy it
+      - INFLUXDB2_URL=http://influxdbV2:8086        
+      - INFLUXDB2_ORG=                                          ## create an influx organization and copy it
       - INFLUXDB2_BUCKET=                                       ## create an influx bucket and copy it
       - INFLUXDB2_TOKEN=                                        ## generate an influx API token and copy it
     ports:
@@ -130,7 +130,7 @@ docker compose up -d
   - hit Next
   - restart all docker containers
 
-### INfluxDB v2 customization:
+### InfluxDB v2 customization:
   - Login to INfluxDB on http://<Influxdb server ip address>:58086
   - Fill in following items
     - username: choose one
@@ -140,7 +140,7 @@ docker compose up -d
     - initial bucket name: e.g qbus
     - copy the token provided 
 
-- all above parameters shoudl be copied to the docker-compose.yaml file in the section qbtools
+- copy organization, bucket and token to the specific environment variables in the docker-compose.yaml file under section qbtools
 
 # Remarks
 ⚠️ wk275/qbtools, wk275/qbmos & wk275/qbusmqtt are not officially supported by Qbus.
