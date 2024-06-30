@@ -24,15 +24,51 @@ Qbtools V3 is a collection of 3 docker images.
 ### <a href="https://hub.docker.com/r/wk275/qbmos">wk275/qbmos</a>
 Customized mosquitto server with support for docker environment variables.
 
-| docker env variable  | description |
-| ------------- | ------------- |
-| MQTT_USER     | defines a mosquitto user at the start of the docker container  |
-| MQTT_PASSWORD  | defines a mosquitto password at the start of the docker container|
+Docker-compose.yaml
+
+````
+  qbmos:
+    image: wk275/qbmos:latest
+    environment:
+      - TZ=Europe/Brussels                                        ## defines timezone
+      - MQTT_USER=appmos                                          ## sets the qbmos mosquitto user at runtime. Replace it with your own user name!
+      - MQTT_PASSWORD=KLCOejzpJDpzjc310C0293!çàé                  ## sets the qbmos mosquitto password at runtime. Replace it with your own password!
+    container_name: qbmos
+    restart: unless-stopped
+    ports:
+      - "11883:1883"                                               ## defines external port as 11883 and container/internal port as 1883
+                                                                   ## this mqtt server will be reachable at <server ip address>:11883
+                                                                   ## whithin a docker-compose.yaml file it will be available at
+                                                                   ## 0.0.0.0:1883 or at qbmos:1883
+    volumes:
+      - ./mosquitto/data:/mosquitto/data                           ## persist data to external directory. This is neccesary to keep homassistant definitions and MQTT entries in sync! 
+````
 
 
 ### <a href="https://hub.docker.com/r/wk275/qbusmqtt">wk275/qbusmqtt</a>
+Customized docker installation of QBUSMQTTGW
+
+| docker env variable  | description |
+| ------------- | ------------- |
+| MQTT_HOST     | MQTT server ip address. Use 0.0.0.0 for container ip address |
+| MQTT_PORT     | MQTT server port |
+| MQTT_USER     | MQTT user
+| MQTT_PASSWORD | MQTT password|
 
 ### <a href="https://hub.docker.com/r/wk275/qbtools">wk275/qbtools</a>
+#### features
+- interface homeassistant
+
+      - TZ=Europe/Brussels
+      - MQTT_HOST=qbmos
+      - MQTT_PORT=1883
+      - MQTT_USER=appmos                                        ## qbmos mosquitto user
+      - MQTT_PASSWORD=NCJDeceoXZBUCBZib28EZD9yxshxzoç2703E      ## qbmos mosquitto password
+      - INFLUXDB2_URL=http://influxdbV2:8086
+      - INFLUXDB2_ORG=nodered
+      - INFLUXDB2_BUCKET=qbus
+      - INFLUXDB2_TOKEN=WOL3wRhMHvtK791JM0EPODDpXzIbYZL9hnmQjrOcSB6fVX2kA8O1qgTJ5v-1T2LI3cf3ViJ2G7LVIwLp3hhzfA==
+
 
 
 ## qbusmqtt: 
@@ -49,11 +85,6 @@ The environment is tested on following systems:
 - arm64 - raspberry pi 4B- 4GB memory - 64 bit OS - Debian GNU/Linux 11 (bullseye)
 - arm64 - odroid C4 4-GB memory - 64 bit OS - Ubuntu 22.04.3 LTS (jammy)
 - amd64 - X64 64 bit OS - Ubuntu 22.04.3 LTS (jammy)
-
-#### Check if your OS is running in 64-bit mode
-```
-dpkg --print-architecture
-```
 
 ## System setup
 
