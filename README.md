@@ -149,8 +149,8 @@ qbTools is the interface between Qbus devices, Homeassistant devices, InfluxDB/G
         },
         ```
   - HTTP interface:
-      The qbtools integrated HTTP server will handle parameters in a flat object format. It has a qbusGet and qbusSet function. 
-      E.g flat object
+      The qbtools integrated a HTTP server. It has 2 methods qbusGet and qbusSet and it's parameters should be specified in a flat object format. 
+      <br/>E.g
         default qbus mqtt object:
             {
               "id":"UL106",
@@ -158,7 +158,8 @@ qbTools is the interface between Qbus devices, Homeassistant devices, InfluxDB/G
                 {
                   "currTemp":28
                 },
-              "type":"event"}
+              "type":"event"
+            }
         flat object:
             {  "id": "UL180",
                 "properties.currtemp" = 28,
