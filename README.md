@@ -298,7 +298,7 @@ Just type docker logs "container-id" -f
 docker logs qbtools-v3 -f
 ````
 
-## Home assistant customization:
+### Home assistant customization:
   - Login to Home assistant on http://homeassistant_server_ip_address:58123
   - After setup go to Setup > Devices and services > Add integration
   - Add MQTT with following parameters (be sure to specify MQTT exactly, not MQTT JSON,...)
@@ -310,7 +310,7 @@ docker logs qbtools-v3 -f
   <br/> In the overview you should see all your qbus outputs now.
   - ##### restart your home assistant to refresh the qbus status.
 
-## InfluxDB v2 customization:
+### InfluxDB v2 customization:
   - Login to InfluxDB on http://<Influxdb server ip address>:58086
   - Hit buttin "get started"
   - Fill in following items
@@ -335,8 +335,9 @@ docker logs qbtools-v3 -f
   - ##### Check qbmos, qbusmqtt and qbtools container log files if you have problems in starting up the environment
 
 ## If you have already some components installed yourself
-- if you already have a MQTT server: copy the docker-compose sections of qbusmqtt and qbtools and modify the MQTT_* envornment variables.
-- if you already have a MQTT server and a qbusmqttgw running: copy the docker-compose qbtoolssection and modify the MQTT_* environment variables.
+- if you want to use your MQTT server.
+  <br/> Just copy the docker-compose sections of qbusmqtt and qbtools and modify the MQTT_* envornment variables of your MQTT server.
+- if you already have a MQTT server and a qbusmqttgw running: copy the docker-compose qbtools section and modify the MQTT_* environment variables conform your environment setup.
 
 ## Issues and enhancements:
 Please use the issues tab on this git-hub. I will look into it asap.
