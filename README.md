@@ -301,7 +301,7 @@ docker logs qbtools-v3 -f
 ## Home assistant customization:
   - Login to Home assistant on http://homeassistant_server_ip_address:58123
   - After setup go to Setup > Devices and services > Add integration
-  - Add MQTT with following parameters
+  - Add MQTT with following parameters (be sure to specify MQTT exactly, not MQTT JSON,...)
     - Broker = qbmos
     - Port = 1883
     - User name = appmos                               ### or your user if changed
