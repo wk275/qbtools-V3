@@ -311,7 +311,7 @@ docker logs qbtools-v3 -f
   - ##### restart your home assistant to refresh the qbus status.
 
 ## InfluxDB v2 customization:
-  - Login to INfluxDB on http://<Influxdb server ip address>:58086
+  - Login to InfluxDB on http://<Influxdb server ip address>:58086
   - Hit buttin "get started"
   - Fill in following items
     - username: choose one
