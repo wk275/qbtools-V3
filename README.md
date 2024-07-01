@@ -342,8 +342,8 @@ docker logs qbtools-v3 -f
 ## Issues and enhancements:
 Please use the issues tab on this git-hub. I will look into it asap.
 
-## How to upgrade in the future
-Because all components use a container based approach it will be easy to upgrade.
+## How to upgrade
+Because all components use a container based approach it will be very easy to upgrade.
 - Bring down your containers
   ````
   cd ~/qbtools-v3
