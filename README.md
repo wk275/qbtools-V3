@@ -307,8 +307,8 @@ docker logs qbtools-v3 -f
     - User name = appmos                               ### or your user if changed
     - Password =  NCJDeceoXZBUCBZib28EZD9yxshxzoç2703E ### or your password if changed
   - hit send & complete
-  <br/> In the overview you should see all your qbus outputs now. However the status will e unknown.
-  - ##### restart all docker containers ! After a while all Qbus entities states will be refreshed.
+  <br/> In the overview you should see all your qbus outputs now.
+  - ##### restart your home assistant to refresh the qbus status.
 
 ## InfluxDB v2 customization:
   - Login to INfluxDB on http://<Influxdb server ip address>:58086
