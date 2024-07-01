@@ -13,7 +13,8 @@ Qbtools V3 is a collection of 3 docker images. Together they deliver an environm
 ![](https://img.shields.io/badge/-docker-red)
 ![](https://img.shields.io/badge/-docker--compose-red)
 
-![image](https://github.com/wk275/qbtools-V3/assets/55239601/12a4894d-7ab4-4881-ab23-3de5541ac820)
+![image](https://github.com/wk275/qbtools-V3/assets/55239601/0f7021bb-f8b5-4dcc-b8d8-907f06191826)
+
 
 ## Docker images 
 - ### <a href="https://hub.docker.com/r/wk275/qbmos">wk275/qbmos</a>
