@@ -323,18 +323,15 @@ docker logs qbtools-v3 -f
   - go to API tokens and hit generate API TOKEN > All Access API Token
     - choose a name e.g. qbus
     - hit save
-    - copy the token via <CNTRL C> and not via button COPT TO CLIPBOARD
+    - copy the token via < CNTRL C > and not via button COPY TO CLIPBOARD
     - close window
   - go to buckets
     - hit button create bucket
     - name e.g. qbus
     - hit create 
 
-  - save above parameters organization, bucket and token to the specific environment variables in the docker-compose.yaml file under section qbtools
+  - copy above parameters: organization, bucket and token to the specific environment variables in the docker-compose.yaml file in the container section qbtools! Be sure that you do not use quotes of a space before or behind the equal sign
   - ##### restart all docker containers !
-
-
-
 
 # Remarks
 ⚠️ wk275/qbtools, wk275/qbmos & wk275/qbusmqtt are not officially supported by Qbus.
