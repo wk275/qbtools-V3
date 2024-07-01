@@ -342,5 +342,24 @@ docker logs qbtools-v3 -f
 ## Issues and enhancements:
 Please use the issues tab on this git-hub. I will look into it asap.
 
+## How to uppgrade in the future
+Because aal components use a container base approach it will be easy to upgrade.
+- Bring down your containers
+  ````
+  cd ~\qbutools-v3
+  docker compose rm --stop --force
+  ````
+- Remove qbtools, qbmos and qbusmqtt images
+  ````
+  docker images -a
+  docker rmi wk275/qbtools wk275/qbmos wk275/qbusmqtt
+  docker system prune <<<y
+  ````
+- do not delete the directories under qbtools-v3, but start the containers again 
+````
+docker compose up -d
+````
+
+
 # Remarks
 ⚠️ wk275/qbtools, wk275/qbmos & wk275/qbusmqtt are not officially supported by Qbus.
