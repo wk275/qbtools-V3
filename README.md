@@ -292,8 +292,13 @@ services:
 EOF
 docker compose up -d
 ````
+### log files
+Just type docker logs "container-id" -f
+````
+docker logs qbtools-v3 -f
+````
 
-#### Home assistant customization:
+## Home assistant customization:
   - Login to Home assistant on http://homeassistant_server_ip_address:58123
   - After setup go to Setup > Devices and services > Add integration
   - Add MQTT with following parameters
@@ -304,7 +309,7 @@ docker compose up -d
   - hit send & complete
   - ##### restart all docker containers ! After a while all Qbus entities states will be refreshed.
 
-#### InfluxDB v2 customization:
+## InfluxDB v2 customization:
   - Login to INfluxDB on http://<Influxdb server ip address>:58086
   - Hit buttin "get started"
   - Fill in following items
@@ -327,10 +332,7 @@ docker compose up -d
   - save above parameters organization, bucket and token to the specific environment variables in the docker-compose.yaml file under section qbtools
   - ##### restart all docker containers !
 
-## log files
-Just type docker logs "container-id" -f
-````
-docker logs qbtools-v3 -f
+
 
 
 # Remarks
