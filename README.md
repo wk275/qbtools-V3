@@ -166,7 +166,10 @@ qbTools is the interface between Qbus devices, Homeassistant devices, InfluxDB/G
                "type":"event
             }
       ### qbusGet
+          ````
           http://<ipaddress of qbtools server>:51881/qbusGet?topic=Virtual_HVAC_Therm     //(to disstinguish from other installations, in the example docker file all external ports have a prefix 5)
+          ````
+          ==> response
           {
             "topic": "cloudapp/QBUSMQTTGW/UL1/UL167/state",
             "qos": 1,
@@ -181,8 +184,11 @@ qbTools is the interface between Qbus devices, Homeassistant devices, InfluxDB/G
             }
           }
       ### qbusSet
-          http://<ipaddress of qbtools server>:51881/qbusSet?topic=Virtual_HVAC_Therm&payload.currRegime=NACHT
-    
+          ````
+          http://<ipaddress of qbtoolsserver>:51881/qbusSettopic=Virtual_HVAC_Therm&payload.currRegime=NACHT
+          ````
+          ===> response
+          
 ## How to install:
 - Open a login session on your server and execute code below.
 It will 
