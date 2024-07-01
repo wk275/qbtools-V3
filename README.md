@@ -319,7 +319,7 @@ docker logs qbtools-v3 -f
     - confirm password: same as password
     - initial organization name: e.g nodered
     - initial bucket name: init_bucket
-  - Hit continue
+  - Hit continue & configure later
   - go to API tokens and hit generate API TOKEN > All Access API Token
     - choose a name e.g. qbus
     - hit save
