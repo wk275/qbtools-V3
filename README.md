@@ -86,55 +86,101 @@ qbTools is the interface between Qbus devices, Homeassistant devices, InfluxDB/G
                           },
                     ],
                 }
-       ````
-  - Modify HA intities before creation:
-    You can modified almost every HA entity property before it is send to the HA MQTT discovery topic homeassistant.
-    This is also done via the HAparms.js file in section ha.regexPost. You'll find an example file in the HA_parms directory after starting the qbtools container.
-    Just rename is to HAparms.js and modify its contents. When saved, the parameters will be picked up by qbtools and the correspondening HA entities will be modified after a short period.
-     <br/>For details see definitions below. Keep in mind that here almost all HA entity properties can be changed.
-    ````
-     "ha": {
-        "regexPost": [
+        ````
+       
+    - Modify HA intities before creation:
+      You can modified almost every HA entity property before it is send to the HA MQTT discovery topic homeassistant.
+      This is also done via the HAparms.js file in section ha.regexPost. You'll find an example file in the HA_parms directory after starting the qbtools container.
+      Just rename is to HAparms.js and modify its contents. When saved, the parameters will be picked up by qbtools and the correspondening HA entities will be modified after a short period.
+       <br/>For details see definitions below.
+     ````
+       "ha": {
+          "regexPost": [
+              {
+                  "name_regex": "Virtual_HVAC_Therm.currRegime",
+                  "attributes":
+                  {
+                      "icon": "mdi:clipboard-list-outline",
+                  }
+              },
+              {
+                  "name_regex": "Virtual_HVAC_Therm.setTemp",
+                  "attributes":
+                  {
+                      "icon": "mdi:home-thermometer",
+                  }
+              },
+              {
+                  "name_regex": "Virtual_HVAC_Therm.currTemp",
+                  "attributes":
+                  {
+                      "icon": "mdi:temperature-celsius",
+                  }
+              },
+              {
+                  "name_regex": "_Blinds_",
+                  "attributes":
+                      { "device_class": "shutter" }
+              },
+              {
+                  "name_regex": "_Power_",
+                  "attributes":
+                      { "icon": "mdi:power-socket-eu" }
+              },
+              {
+                  "name_regex": "shellyplug",
+                  "attributes":
+                      { "icon": "mdi:power-plug" }
+              }
+          ]
+      }
+      ````
+    - In the HAparms sections you can use following operations
+      - "[@value]" refers to another parameter,
+       e.g. "name": "[@unique_id]" means: if "name" parameter is not defined, it will get the value of the "unique_id" parameter.
+
+      - "[@value#slice(split character, join character, start offset, end offset)]" refers to another parameter and does some slice processing on it, e.g,
+         ```
+        {
+            "topic": "shellies/shellyplug2/relay",
+            "entity_type": "sensor",
+            "name": "test_[@topic#slice(/,_,1,3)]_[@entity_type]",
+            "==> name": "test_shellyplug2_relay_sensor"
+        },
+        ```
+  - HTTP interface:
+      The qbtools integrated HTTP server will handle parameters in a flat object format. It has a qbusGet and qbusSet function. 
+      E.g flat object
+        default qbus mqtt object:
             {
-                "name_regex": "Virtual_HVAC_Therm.currRegime",
-                "attributes":
+              "id":"UL106",
+              "properties":
                 {
-                    "icon": "mdi:clipboard-list-outline",
-                }
-            },
-            {
-                "name_regex": "Virtual_HVAC_Therm.setTemp",
-                "attributes":
-                {
-                    "icon": "mdi:home-thermometer",
-                }
-            },
-            {
-                "name_regex": "Virtual_HVAC_Therm.currTemp",
-                "attributes":
-                {
-                    "icon": "mdi:temperature-celsius",
-                }
-            },
-            {
-                "name_regex": "_Blinds_",
-                "attributes":
-                    { "device_class": "shutter" }
-            },
-            {
-                "name_regex": "_Power_",
-                "attributes":
-                    { "icon": "mdi:power-socket-eu" }
-            },
-            {
-                "name_regex": "shellyplug",
-                "attributes":
-                    { "icon": "mdi:power-plug" }
+                  "currTemp":28
+                },
+              "type":"event"}
+        flat object:
+            {  "id": "UL180",
+                "properties.currtemp" = 28,
+               "type":"event
             }
-        ]
-    }
-    ````
-  - IN the HAparms sections you can use 
+      ### qbusGet
+          http://<ipaddress of qbtools server>:51881/qbusGet?topic=Virtual_HVAC_Therm     //(to disstinguish from other installations, in the example docker file all external ports have a prefix 5)
+          {
+            "topic": "cloudapp/QBUSMQTTGW/UL1/UL167/state",
+            "qos": 1,
+            "retain": false,
+            "_msgid": "0285c33dcf41b1a7",
+            "payload": {
+              "id": "UL167",
+              "properties.currRegime": "COMFORT",
+              "properties.currTemp": 30,
+              "properties.setTemp": 22,
+              "type": "state"
+            }
+          }
+      ### qbusSet
+          http://<ipaddress of qbtools server>:51881/qbusSet?topic=Virtual_HVAC_Therm&payload.currRegime=NACHT
     
 ## How to install:
 - Open a login session on your server and execute code below.
@@ -263,15 +309,6 @@ Just type docker logs "container-id" -f
 ````
 docker logs qbtools-v3 -f
 
-## HTTP interface
-The interface will take parameters in a flat object format.
-E.g a flat oblect of a normal mqqt msg will be
-payload= {"id":"UL167","properties":{"currRegime":"COMFORT"},"type":"event"}
-payload.id="UL167",
 
-### qbusGet
-qbusGet
-### qbusSet
-````
 # Remarks
 ⚠️ wk275/qbtools, wk275/qbmos & wk275/qbusmqtt are not officially supported by Qbus.
