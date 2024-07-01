@@ -41,6 +41,7 @@ qbTools is the interface between Qbus devices, Homeassistant devices, InfluxDB/G
     |Shutter         | Cover|
     |Thermostat      | Climate (heating only)|
     |Scene           | Scene|
+    |Gauge           | Sensor|
 
   - Create extra HA entities via the /HA_parms/HAparms.js file - section qbusHA.entities. You'll find an example file in the HA_parms directory after starting the qbtools container.
     Just rename is to HAparms.js and modify its contents. When saved, the parameters will be picked up by qbtools and the correspondening HA entities will be modified after a short period.
