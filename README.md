@@ -205,7 +205,7 @@ qbTools is the interface between Qbus devices, Homeassistant devices, InfluxDB/G
             "_msgid": "6c22415b7899182a"
           }
           
-## How to install:
+## How to install a complete qbtools environment from scratch:
 - Open a login session on your server and execute code below.
 It will 
   - create a directoy qbtools-v3 in your home-directory
