@@ -342,11 +342,11 @@ docker logs qbtools-v3 -f
 ## Issues and enhancements:
 Please use the issues tab on this git-hub. I will look into it asap.
 
-## How to uppgrade in the future
-Because aal components use a container base approach it will be easy to upgrade.
+## How to upgrade in the future
+Because all components use a container based approach it will be easy to upgrade.
 - Bring down your containers
   ````
-  cd ~\qbutools-v3
+  cd ~/qbtools-v3
   docker compose rm --stop --force
   ````
 - Remove qbtools, qbmos and qbusmqtt images
