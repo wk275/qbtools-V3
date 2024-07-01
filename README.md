@@ -334,6 +334,12 @@ docker logs qbtools-v3 -f
   - ##### restart all docker containers ! After the restart everything should be working.
   - ##### Check qbmos, qbusmqtt and qbtools container log files if you have problems in starting up the environment
 
+## If you have already some components installed yourself
+- if you already have a MQTT server: copy the docker-compose sections of qbusmqtt and qbtools and modify the MQTT_* envornment variables.
+- if you already have a MQTT server and a qbusmqttgw running: copy the docker-compose qbtoolssection and modify the MQTT_* environment variables.
+
+## Issues and enhancements:
+Please use the issues tab on this git-hub. I will look into it asap.
 
 # Remarks
 ⚠️ wk275/qbtools, wk275/qbmos & wk275/qbusmqtt are not officially supported by Qbus.
