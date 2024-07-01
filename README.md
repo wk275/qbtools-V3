@@ -25,7 +25,7 @@ qbmos is a customized mosquitto server. Instead of defining a user and password 
 qbusmqtt is a docker image for the Qbus mqtt gateway. (for details about the default qbusmqttgw installation see https://github.com/QbusKoen/QbusMqtt-installer)
 
 - ### <a href="https://hub.docker.com/r/wk275/qbtools">wk275/qbtools</a>
-qbTools is the interface between Qbus devices, Homeassistant devices, InfluxDB/Grafana statistics and http devices like Shelly.
+qbTools is the interface between Qbus devices, Homeassistant devices, InfluxDB/Grafana statistics and http/mqtt devices like Shelly.
 
   #### qbtools features:
   - Create Home assistant entities:
