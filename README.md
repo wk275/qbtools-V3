@@ -307,6 +307,7 @@ docker logs qbtools-v3 -f
     - User name = appmos                               ### or your user if changed
     - Password =  NCJDeceoXZBUCBZib28EZD9yxshxzoç2703E ### or your password if changed
   - hit send & complete
+  In the overview you should see all your qbus outputs now.
   - ##### restart all docker containers ! After a while all Qbus entities states will be refreshed.
 
 ## InfluxDB v2 customization:
