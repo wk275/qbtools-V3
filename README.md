@@ -18,84 +18,124 @@ Qbtools V3 is a collection of 3 docker images. Together they deliver an environm
 
 ## Docker images 
 - ### <a href="https://hub.docker.com/r/wk275/qbmos">wk275/qbmos</a>
-qbmos is a customized mosquitto server. Instead of defining a user and password via the standard mosquitto tools, you can define them directly in the docker-compose.yaml file environment variables MQTT_USER and MQTT_PASSWORD.
+qbmos is a customized mosquitto server. Instead of defining a user and password via the standard mosquitto tools, you can directly define them via the docker-compose.yaml environment variables MQTT_USER and MQTT_PASSWORD.
 
 - ### <a href="https://hub.docker.com/r/wk275/qbusmqtt">wk275/qbusmqtt</a>
 qbusmqtt is a docker image for the Qbus mqtt gateway. (for details about the default qbusmqttgw installation see https://github.com/QbusKoen/QbusMqtt-installer)
 
 - ### <a href="https://hub.docker.com/r/wk275/qbtools">wk275/qbtools</a>
-qbTools is the interface between Qbus devices, Homeassistant devices, InfluxDB/Grafana statistics, Node-red and http devices
-#### qbtools features:
-  - create a HA entity for the following qbus outputs:
+qbTools is the interface between Qbus devices, Homeassistant devices, InfluxDB/Grafana statistics, Node-red and http devices like Shelly.
+
+  #### qbtools features:
+  - Create Home assistant entities:
     
-    |Qbus|Home Assistant|
-    |----|--------------|
-    |Dimmer|Light|
-    |On/Off|Switch|
-    |Shutter|Cover|
-    |Thermostat |	Climate (heating only)|
-    |Scene|Scene|
-  
-  - create extra HA entities via HA_parms.js file. You'll find an example file in the HA_parms directory after starting the qbtools container.
+    Home assistant entities are created automatically for all Qbus outputs via the MQTT server and Home assistant discovery.
+    The root topic is homeassistant.
+    <br/> Following qbus outputs types and HA entity types are supported.
+    
+    |Qbus output type|Home Assistant entity type|
+    |----------------|--------------------------|
+    |Dimmer          | Light|
+    |On/Off          | Switch|
+    |Shutter         | Cover|
+    |Thermostat      | Climate (heating only)|
+    |Scene           | Scene|
+
+  - Create extra HA entities via the /HA_parms/HAparms.js file - section qbusHA.entities. You'll find an example file in the HA_parms directory after starting the qbtools container.
+    Just rename is to HAparms.js and modify its contents. When saved, the parameters will be picked up by qbtools and the correspondening HA entities will be modified after a short period.
 
     e.g.
-      - a sensor for a qbus thermostat
-      - a binary_sensor for a garage door
-      - a qbus virtual thermostat with a temperature sensor of a non qbus device
-        
+      - create a HA binary_sensor for qbus switch (e.g a garage_door security switch)
+      - create a HA sensor for a qbus thermostat
+      - create a HA thermostat for a virtual Qbus thermostat with a temperature sensor of a non qbus MQTT device
+      <br/>For details see definitions below.
+        ````
+        "qbusHa": {
+            "entities": [
+                          { "name_regex": "^Virtual_Binary_sensor1$",       // add a HA bynary_sensor for a qbus switch/toggle output with name "Virtual_Binary_sensor1"
+                            "attributes":
+                                {
+                                    "entity_type": "binary_sensor",
+                                    "device_class": "garage_door",          // see https://www.home-assistant.io/integrations/binary_sensor/
+                                    "payload_on": true,                     // Qbus uses true en false for th switch on and off confition
+                                    "payload_off": false
+                                },
+                          },
+                          { "name_regex": "^Virtual_HVAC_Therm$",            // add a HA sensor for a qbus thermostat (3 sensors will be created).
+                            "attributes":                                    // One for evry qbus thermostat property.
+                              {                                              // Virtual_HVAC_Therm.currRegime, Virtual_HVAC_Therm.currTemp and Virtual_HVAC_Therm.setTemp.
+                                  "entity_type": "sensor",
+                                  "icon": "mdi:thermometer"                  // set icon initially to mdi:thermometer. This can later be changed in the ha.regexPost section below if necessary
+                              },
+                          },
+                          { "name_regex": "^Virtual_HVAC_Therm_Temp1$",      // create a HA thermostat for a Virtual qbus thermostat and use the temperature sensor of a non qbus device
+                            "attributes":
+                              {
+                                  "entity_type": "climate",
+                                  "current_temperature_template": '{{value_json.tmp.value}}',                     // MQTT shellymotion topic property tmp.value
+                                  "current_temperature_topic": "shellies/shellymotion/status"                     // MQTT shellymotion topic 
+                              }
+                          },
+                          { "name_regex": "^Virtual_HVAC_Therm_Temp1$",     // create a HA thermostat for a Virtual qbus thermostat and use the temperature sensor of a non qbus device 
+                            "attributes":
+                              {
+                                  "entity_type": "climate",
+                                  "current_temperature_template": '{{value}}',                                    // use the value of the MQTT shelly topic
+                                  "current_temperature_topic": "shellies/shellyht/sensor/temperature"             // MQTT shelly ht topic
+                              }
+                          },
+                    ],
+                }
+       ````
+  - Modify HA intities before creation:
+    You can modified almost every HA entity property before it is send to the HA MQTT discovery topic homeassistant.
+    This is also done via the HAparms.js file in section ha.regexPost. You'll find an example file in the HA_parms directory after starting the qbtools container.
+    Just rename is to HAparms.js and modify its contents. When saved, the parameters will be picked up by qbtools and the correspondening HA entities will be modified after a short period.
+     <br/>For details see definitions below. Keep in mind that here almost all HA entity properties can be changed.
     ````
-      "qbusHa": {
-        "entities": [
+     "ha": {
+        "regexPost": [
             {
-                "name_regex": "^Virtual_Binary_sensor1$",   // add a HA bynary_sensor for a qbus switch/toggle output with name "Virtual_Binary_sensor1"
+                "name_regex": "Virtual_HVAC_Therm.currRegime",
                 "attributes":
                 {
-                    "entity_type": "binary_sensor",
-                    "device_class": "garage_door",          // see https://www.home-assistant.io/integrations/binary_sensor/
-                    "payload_on": true,
-                    "payload_off": false
-                },
-            },
-            {
-                "name_regex": "^Virtual_HVAC_Therm$",         // add a HA sensor for a qbus thermostat (3 sensors will be created: Virtual_HVAC_Therm.currRegime, Virtual_HVAC_Therm.currTemp and Virtual_HVAC_Therm.setTemp)
-                "attributes":
-                {
-                    "entity_type": "sensor",
-                    "icon": "mdi:thermometer"                 // set icon initially to mdi:thermometer. THis can be changed in the ha.regexPost section below if necessary
-                },
-            },
-            {
-                // *********************************************************
-                // prerequisites for a virtual qbus thermostat/shelly device
-                // *********************************************************
-                /*
-                Create in Qbus system manager a 'virtual' thermostat with e.g a name BA_HVAC_Therm
-                Install a shellymotion wifi device in the specific room.
-                Configurate this shelly device to communicate with the Homeassistant mqtt server
-                */
-                "name_regex": "^BA_HVAC_Therm$",              // create a thermostat which uses the temperature sensor of a shelly motion device
-                "attributes":
-                {
-                    "entity_type": "climate",
-                    "current_temperature_template": '{{value_json.tmp.value}}',                     // shellymotion topic property tmp.value
-                    "current_temperature_topic": "shellies/shellymotion/status"                     // shellymotion topic
+                    "icon": "mdi:clipboard-list-outline",
                 }
             },
             {
-                "name_regex": "^DO_HVAC_Therm$",              // create a thermostat which uses the temperature sensor of a shelly ht device
+                "name_regex": "Virtual_HVAC_Therm.setTemp",
                 "attributes":
                 {
-                    "entity_type": "climate",
-                    "current_temperature_template": '{{value}}',                                    // use the value of the shelly topic
-                    "current_temperature_topic": "shellies/shellyht/sensor/temperature"             // shelly ht topic
+                    "icon": "mdi:home-thermometer",
                 }
             },
-
-        ],
-    },
+            {
+                "name_regex": "Virtual_HVAC_Therm.currTemp",
+                "attributes":
+                {
+                    "icon": "mdi:temperature-celsius",
+                }
+            },
+            {
+                "name_regex": "_Blinds_",
+                "attributes":
+                    { "device_class": "shutter" }
+            },
+            {
+                "name_regex": "_Power_",
+                "attributes":
+                    { "icon": "mdi:power-socket-eu" }
+            },
+            {
+                "name_regex": "shellyplug",
+                "attributes":
+                    { "icon": "mdi:power-plug" }
+            }
+        ]
+    }
     ````
-
-
+  - IN the HAparms sections you can use 
+    
 ## How to install:
 - Open a login session on your server and execute code below.
 It will 
