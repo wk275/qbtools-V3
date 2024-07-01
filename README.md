@@ -304,8 +304,8 @@ docker logs qbtools-v3 -f
   - Add MQTT with following parameters
     - Broker = qbmos
     - Port = 1883
-    - User name = appmos
-    - Password =  NCJDeceoXZBUCBZib28EZD9yxshxzoç2703E
+    - User name = appmos                               ### or your user if changed
+    - Password =  NCJDeceoXZBUCBZib28EZD9yxshxzoç2703E ### or your password if changed
   - hit send & complete
   - ##### restart all docker containers ! After a while all Qbus entities states will be refreshed.
 
