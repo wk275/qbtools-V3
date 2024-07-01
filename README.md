@@ -8,7 +8,7 @@ Qbtools V3 is a collection of 3 docker images. Together they deliver an environm
 ![](https://img.shields.io/badge/interfaces-qbus_devices-green)
 ![](https://img.shields.io/badge/-home_assistant_devices-green)
 ![](https://img.shields.io/badge/-influxDB_v2/grafana_statistics-green)
-![](https://img.shields.io/badge/-http_devices-green) <br/>
+![](https://img.shields.io/badge/-http_devices-green)
 ![](https://img.shields.io/badge/-mqtt_devices-green) <br/>
 ![](https://img.shields.io/badge/prerequisites-qbus-red)
 ![](https://img.shields.io/badge/-docker-red)
