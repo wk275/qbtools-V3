@@ -30,7 +30,7 @@ qbTools is the interface between Qbus devices, Homeassistant devices, InfluxDB/G
   #### qbtools features:
   - Create Home assistant entities:
     
-    Home assistant entities are created automatically for Qbus outputs via the MQTT server and Home assistant discovery. The root topic is homeassistant.
+    Home assistant entities are created automatically for Qbus outputs. This process is based upon a MQTT server and Home assistant discovery. Root topic is homeassistant.
 
     Qbtools rely on a unique qbus output name. So if duplicates, please correct them first in qbus system manager.
     
@@ -47,7 +47,7 @@ qbTools is the interface between Qbus devices, Homeassistant devices, InfluxDB/G
 <br/>
 
   - Create extra HA entities via the ~/qbtools-v3/HA_parms/HAparms.js file - section qbusHA.entities. You'll find an example file in the HA_parms directory after starting the qbtools container.
-    Just rename is to HAparms.js and modify its contents. When saved, the parameters will be picked up by qbtools and the correspondening HA entities will be modified after a short period.
+    Just rename is to HAparms.js and modify its contents. When saved, the parameters will be picked up by qbtools and the correspondening HA entities will be created after a short period.
 
     e.g.
       - create a HA binary_sensor for qbus switch (e.g a garage_door security switch)
@@ -93,11 +93,11 @@ qbTools is the interface between Qbus devices, Homeassistant devices, InfluxDB/G
                 }
         ````
        
-    - Modify HA intities before creation:
-      You can modified almost every HA entity property before it is send to the HA MQTT discovery topic homeassistant.
-      This is also done via the HAparms.js file in section ha.regexPost. You'll find an example file in the HA_parms directory after starting the qbtools container.
-      Just rename is to HAparms.js and modify its contents. When saved, the parameters will be picked up by qbtools and the correspondening HA entities will be modified after a short period.
-       <br/>For details see definitions below.
+  - Modify HA entities before creation:
+    You can modify almost every HA entity property before it is send to the HA MQTT discovery topic homeassistant.
+    This is also done via the HAparms.js file in section ha.regexPost. You'll find an example file in the HA_parms directory after starting the qbtools container.
+    Just rename is to HAparms.js and modify its contents. When saved, the parameters will be picked up by qbtools and the correspondening HA entities will be modified after a short period.
+     <br/>For details see definitions below.
      ````
        "ha": {
           "regexPost": [
@@ -140,11 +140,13 @@ qbTools is the interface between Qbus devices, Homeassistant devices, InfluxDB/G
           ]
       }
       ````
-    - In the HAparms sections you can use following operations
-      - "[@value]" refers to another parameter,
+- In the HAparms sections you can use following statements
+  
+  - "[@value]" refers to another parameter,
+  - 
        e.g. "name": "[@unique_id]" means: if "name" parameter is not defined, it will get the value of the "unique_id" parameter.
 
-      - "[@value#slice(split character, join character, start offset, end offset)]" refers to another parameter and does some slice processing on it, e.g,
+  - "[@value#slice(split character, join character, start offset, end offset)]" refers to another parameter and does some slice processing on it, e.g,
          ```
         {
             "topic": "shellies/shellyplug2/relay",
@@ -153,24 +155,29 @@ qbTools is the interface between Qbus devices, Homeassistant devices, InfluxDB/G
             "==> name": "test_shellyplug2_relay_sensor"
         },
         ```
-  - HTTP interface:
-      The qbtools has an integrated HTTP server. It has 2 methods: qbusGet and qbusSet and it's parameters should be specified in a flat object format. 
-      <br/>E.g
-        default qbus mqtt object:
+- HTTP interface:
+  
+  The qbtools has an integrated HTTP server. It has 2 methods: qbusGet and qbusSet and it's parameters should be specified as a flat object format. 
+  <br/>E.g
+    ````
+    default qbus mqtt object:
+      {
+          "id":"UL106",
+          "properties":
             {
-              "id":"UL106",
-              "properties":
-                {
-                  "currTemp":28
-                },
-              "type":"event"
-            }
-        flat object:
-            {  "id": "UL180",
-                "properties.currtemp" = 28,
-               "type":"event
-            }
-      ### qbusGet
+              "currTemp":28
+            },
+          "type":"event"
+        }
+    ````
+    ````
+    flat object:
+        {  "id": "UL180",
+            "properties.currtemp" = 28,
+           "type":"event
+        }
+  ````
+  ### qbusGet
 
     ````
           http://<ipaddress of qbtools server>:51881/qbusGet?topic=Virtual_HVAC_Therm     //(to disstinguish from other installations, in the example docker file all external ports have a prefix 5)
@@ -341,7 +348,7 @@ docker logs qbtools-v3 -f
 
 ## If you have already some components installed yourself
 - if you want to use your MQTT server.
-  <br/> Just copy the docker-compose sections of qbusmqtt and qbtools and modify the MQTT_* envornment variables of your MQTT server.
+  <br/> Just copy the docker-compose sections of qbusmqtt and qbtools and modify the MQTT_* environment variables conform your environment setup..
 - if you already have a MQTT server and a qbusmqttgw running: copy the docker-compose qbtools section and modify the MQTT_* environment variables conform your environment setup.
 
 ## Issues and enhancements:
