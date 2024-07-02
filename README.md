@@ -31,7 +31,7 @@ qbTools is the interface between Qbus devices, Homeassistant devices, InfluxDB/G
   - Create Home assistant entities:
     
     Home assistant entities are created automatically for Qbus outputs via the MQTT server and Home assistant discovery.
-    Qbtools rely on a unique qbus output name. So if duplicate qbus output names, please correct them first in qbus system manager.
+    Qbtools rely on a unique qbus output name. So if duplicates, please correct them first in qbus system manager.
     The root topic is homeassistant.
     <br/> Following qbus outputs types and HA entity types are supported.
     
