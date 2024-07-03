@@ -1,0 +1,64 @@
+2.7.3   class       HA                      #D2731 deadlock in I_resolveRedirect when none of the redirect variabels have a parms.x.value E.G "unique_id": "[@name]", "name": "[@unique_id]" and neither of them have a parms.name or parms.unique_id
+2.7.4   class       Util/getObjectType      #D2741 Defect: wrong payload type when original mqtt message is an object with key-value pairs. Objecttype should be nested object iso key-value object (e.g. shellies/shellyplug2/announce)
+        node        HA                      #D2742 Modify logic: Add parameter payload_type from msg.properties.origPayloadType
+2.7.5   class       Util                    #E2752 I_catchError added throw Error() to stop exucution if errors
+        class       Util                    #D2753 mergeObjects gives different results depending on how it was defined! Correct structure now => let result = mergeObjects(obj&,obj2);
+        class       ALL                     #D2754 cleanup mergeObjects in code !
+        class       HA                      #D2755 Review mergeObjects priority
+        node        QbusHA                  #E2756 Base logic on HA node iso internal HA code
+2.7.6   node        QbusHA                  #E2761 Enhancement: set retain flag automatically on topic qbus/<qbus output>/action & mode
+2.7.7   node        QbusHA                  #E2771 Correct 2x mosquitto connection paramaters in delete flow (effect was HAparms icon changes not showing)
+2.7.8   node        HA                      #E2781 Only create HA entities when necessary. (Sync HA mqtt entities with nodered context store)
+2.7.10  MQTT        topic                   #E27101 Introduce part of the nodePath in Homeassistant MQTT topic
+        class       HA                      #E27102 Introduce nodePath in I_createHaEntityMsg
+        node        HA                      #E27103 Sync MQTT homeassistant specific node+pathName with context homeassistant (in case of HA entity name change/delete)
+2.7.11  qbusmqtt    build                   #D2711 Defect in build. tftp is obsolete in the last version of UBUNTU datetimectl has been changed
+2.7.12  node        QbusCollect             #E27121 activate qbus connection from node iso by rebooting qbus server
+2.7.14  node        setStatus               #E27123 reroute all nodered status messages to log file  -> node.log(status message)
+2.7.15  node        ALL                     #E17151 structure log messages and node naming
+        node        Create nodeAddresses    #E27152 add translation table nodeAddresses from flows.json
+        class       setMsgStatus            #E27152 add translated nodepath info to log file
+2.7.16  node        QbusInfluxDB            #D2716 start at deploy time rather than waiting for a message
+2.7.17  qbTools     docker-compose.yaml-64bit #E27171 node-red add environment variables MQTT_IP, MQTT_PORT, MQTT_USER, MQTT_PASSWORD
+        node        config all flows        #E27171 change mosquitto config parameters to ${MQTT_HOST}, ${MQTT_PORT, ${MQTT_USER}, ${MQTT_PASSWD}
+2.7.18  docker      build                   #E28181 create Dockerfiles for wk275/qbmos, wk275/qbusmqtt & wk275/qbtools
+                                            #E27182 Push Dockerfiles multi-arch to docker hub
+2.8.1   node        HaParms                 #E2811 Introduce parameters for extra entities in HAparms e.g. sensor, binary sensor , Climate sensor, ...
+        node        Qbus HA                 #E2812 Change node "generate messages" to create extra HAparms entities
+2.8.2   node        HaParms                 #E2822 externalize haparms
+2.8.3   class       Msg                     #E2831 Review & enhance logging info. Add msg part always: method setMsgStatus -> message
+        node        SetStatus               #E2832 Review & enhance logging info
+        class       Util                    #E2833 Add method object2Array (replaces getProperties function in SetStatus)
+        class       Msg                     #E2834 Add NodePath and NodeName to setMsgStatus
+        flow        Classes & HA entities   #E2835 Read HAparms.js from disk
+2.8.4   HAparms     js                      #E2841 split up HAparms in default HAparms with entity definitions en user HAparms.js wih entity, regexPre, regexpPost
+        Class       HA                      #E2842 Load HAparms @ runtime
+        Class       HA                      #E2843 Delete regexpPre processing. It is replaced by qbusHa.entities in HAparms (create extra Entity types like sensor, binary sensor, etc.)
+                                                   Structure qbusHa.entities is exactly the same as regexpPre. But execution is done upfront in node QbusHa(Generate messages)
+                                            #D2844 method I_createHaEntity post pocessing: regexPost is object Array, not an array -> Changed
+                                                for (let i = 0; i < regexParms.length; i++) {"
+                                                --> for (let i = 0; i < Object.keys(regexParms).length; i++) {
+2.8.5   node        queue                   #E2851 Introduce queue subflow
+        node        global functions        #E2852 Introduce global functions
+        class       Util,Msg                #E2853 Introduce constructor with variable amount of parameters and defaults
+        node        merge HAparms           #E2855 introduce node "merge HAparms" iso merge in HA class
+        node        QbusHA,HA               #E2856 Rewrite HA processing with queues
+        class       HA                      #E2857 Change nodepath info in mqtt topic from first 2 node-path items to all items -1
+        node        QBusHA,HA               #E2858 re-write queueu node -> based upon node-red-contrib-controltimer
+        node        /HA_parms/HAparms.js    #E2859 Re-work reading of user HAparms and merging it with the default HAparms
+        nodeGroup  "Change ownership directory /HA_parms and copy HAparms_example.js" #E2859 change root ownership & copy HAparms example file
+2.8.6   flow        qbusGet/qbusSet         #E2861 introduce http server for qbusGet and qbusSet
+2.8.7   node        Qbus InfluxDB           #E2871 change influxdb module html file to accept env variables for batch loading & adapt logic
+        docker-compose.yaml-64bit nodered  #E2872 configure Influxdb-V2 environment variables
+                                                - INFLUXDB2_URL=
+                                                - INFLUXDB2_ORG=n
+                                                - INFLUXDB2_BUCKET
+                                                - INFLUXDB2_TOKEN=
+        node        Qbus InfluxDB           #E2873 remove temp fix for influxdb2 & start influx interface only if all 4 environment variables are defined
+2.8.8   node    QBCollect                   #E2881 write qbus collections to mqtt so other nodered instances can subscribe to it.
+        class   Mqtt                        #E2882 constructor change to options iso fixed parms
+        node    globalFunctions             #E2883 change context.global.loadClasses parms to accommodate for  Mqtt class({options})
+        node    QbusHA                      #E2884 re-activate home assistant mqqt status checking
+        node    QbusHA                      #E2885 add qbus gauge types (energy meter, universal meter, )
+        class   HA                          #E2885B add qbus gauge types (energy meter, universal meter, )
+3.0    dockerhub build & buildx             Build wk275/qbmos, wk275/qbusmqtt & wk275/qbtools latest & 3.0 for arm64, arm/V7 and amd64
