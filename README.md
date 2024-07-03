@@ -175,7 +175,7 @@ qbTools is the interface between Qbus devices, Homeassistant devices, InfluxDB/G
     ````
     ````
     flat object:
-        {  "id": "UL180",
+        {  "id": "UL106",
             "properties.currtemp" = 28,
            "type":"event
         }
