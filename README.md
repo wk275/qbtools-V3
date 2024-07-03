@@ -1,16 +1,18 @@
 # qbtools-V3
-Qbtools V3 is a collection of 3 docker images. Together they deliver an environment for integrating QBUS with Homeassistant, Influxdb & Grafana, http devices and mqtt devices.
+The way you install V3.0 is different from V2. 
+Instead of installing the environment from a tar file with precustomized softwares, Qbtools V3 is a collection of 3 docker images. 
+Together they deliver an environment for integrating QBUS with Homeassistant, Influxdb & Grafana, http devices and mqtt devices.
 
 ![](https://img.shields.io/badge/release-v3.0-blue)                 
 ![](https://img.shields.io/badge/arch-arm64-yellow)
 ![](https://img.shields.io/badge/-armv7-yellow) 
 ![](https://img.shields.io/badge/-amd64-yellow)
 <br/>
-![](https://img.shields.io/badge/interfaces-qbus_devices-green)
+![](https://img.shields.io/badge/interfaces_with-qbus_devices-green)
 ![](https://img.shields.io/badge/-home_assistant_devices-green)
 ![](https://img.shields.io/badge/-influxDB_v2/grafana_statistics-green)
 ![](https://img.shields.io/badge/-http_devices-green)
-![](https://img.shields.io/badge/-mqtt_devices-green) <br/>
+<br/>
 ![](https://img.shields.io/badge/prerequisites-qbus-red)
 ![](https://img.shields.io/badge/-docker-red)
 ![](https://img.shields.io/badge/-docker--compose-red)
