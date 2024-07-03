@@ -345,7 +345,7 @@ docker logs qbtools-v3 -f
     - name e.g. qbus
     - hit create 
 
-  - copy above parameters: organization, bucket and token to the specific environment variables in the docker-compose.yaml file in the container section qbtools! Be sure that you do not use quotes of a space before or behind the equal sign
+  - copy above parameters: organization, bucket and token to the specific environment variables in the docker-compose.yaml file in the container section qbtools! Be sure that you do not use quotes or a space before or behind the equal sign!
   - ##### restart all docker containers ! After the restart everything should be working.
   - ##### Check qbmos, qbusmqtt and qbtools container log files if you have problems in starting up the environment
 
