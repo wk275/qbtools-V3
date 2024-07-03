@@ -203,7 +203,7 @@ qbTools is the interface between Qbus devices, Homeassistant devices, InfluxDB/G
 
     ### qbusSet
     ````
-          http://<ipaddress of qbtoolsserver>:51881/qbusSettopic=Virtual_HVAC_Therm&payload.currRegime=NACHT
+          http://<ipaddress of qbtoolsserver>:51881/qbusSet?topic=Virtual_HVAC_Therm&payload.currRegime=NACHT
     ````
           ===> response
           {
