@@ -35,7 +35,7 @@ qbTools is the interface between Qbus devices, Homeassistant devices, InfluxDB/G
 
   #### qbtools features:
 
-  ##### HAparms.Ha.regexPre is no longer supported. You should use HAparms.qbusHA.entities instead. 
+  ##### HAparms.Ha.regexPre is no longer supported. You should use HAparms.qbusHA.entities instead !!!
   
   - Create Home assistant entities:
     
