@@ -34,6 +34,9 @@ qbusmqtt is a docker image for the Qbus mqtt gateway. (for details about the def
 qbTools is the interface between Qbus devices, Homeassistant devices, InfluxDB/Grafana statistics and http/mqtt devices.
 
   #### qbtools features:
+
+  ##### HAparms.Ha.regexPre is no longer supported. You should use HAparms.qbusHA.entities instead. 
+  
   - Create Home assistant entities:
     
     Home assistant entities are created automatically for Qbus outputs. This process is based upon a MQTT server and Home assistant discovery. Root topic is homeassistant.
