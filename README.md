@@ -327,7 +327,7 @@ docker logs qbtools-v3 -f
 
 ### InfluxDB v2 customization:
   - Login to InfluxDB on http://<Influxdb server ip address>:58086
-  - Hit buttin "get started"
+  - Hit button "get started"
   - Fill in following items
     - username: choose one
     - password: choose one & remember it :-)
