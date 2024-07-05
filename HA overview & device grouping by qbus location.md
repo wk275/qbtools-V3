@@ -1,3 +1,4 @@
+# HA overview & device grouping by qbus location
 ## This is a Qbtools v3.0.1 functionality:
 HAparms @variable can contain HA entitity properties but also Qbus output properties.
 Below you'll find the HAparms code to group HA overview and HA devices by QBus location 
