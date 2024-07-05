@@ -1,4 +1,4 @@
-# qbtools-V3
+# qbtools-V3.0.1
 The way you install V3.0 is different from V2. 
 Instead of installing the environment from a tar file with precustomized softwares, version 3 is installed via definitions in a docker-compose.yaml file.
 Qbtools V3 is a collection of 3 docker images. Together they deliver an environment for integrating QBUS with Homeassistant, Influxdb & Grafana, http devices and mqtt devices.
