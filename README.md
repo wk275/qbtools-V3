@@ -6,7 +6,7 @@ Qbtools V3 is a collection of 3 docker images. Together they deliver an environm
 Qbtools-V2 was difficult to upgrade due to the possible mix of qbtools and user code. For this reason is qbtools-v3 nodered instance no longer exposed. 
 You need to setup a second nodered server with your own automation scripts and other interfaces. So qbtool's code and your code is clearly separated.
 
-![](https://img.shields.io/badge/release-v3.0-blue)                 
+![](https://img.shields.io/badge/release-v3.0.1-blue)                 
 ![](https://img.shields.io/badge/arch-arm64-yellow)
 ![](https://img.shields.io/badge/-armv7-yellow) 
 ![](https://img.shields.io/badge/-amd64-yellow)
