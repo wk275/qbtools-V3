@@ -62,3 +62,6 @@
         node    QbusHA                      #E2885 add qbus gauge types (energy meter, universal meter, )
         class   HA                          #E2885B add qbus gauge types (energy meter, universal meter, )
 3.0    dockerhub build & buildx             Build wk275/qbmos, wk275/qbusmqtt & wk275/qbtools latest & 3.0 for arm64, arm/V7 and amd64
+3.0.1  class   HA                           #E3011 Expand @variable search to qbusCollection   
+                                            #D3012 Defect in stopping influxdb interface
+       dockerhub build & buildx            Build wk275/qbtools & local qbtools       
