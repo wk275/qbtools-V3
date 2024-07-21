@@ -1,0 +1,32 @@
+Release notes 3.1.1.2
+3.0.1   #E3011 Expand @variable search to qbus properties in combination with HA entities
+        E.G. 
+        Add codeblock below 
+        - to format the Overview per qbus location
+        - to format the Overview of settings>Devices and Service>Mqtt click on xx Devices button
+        "ha": 
+            {
+                "regexPost": [
+                // ***************    
+                // codeblock start
+                // ***************
+                {
+                    "name_regex": ".*",
+                    "attributes":
+                        { "device.identifiers": "[@location]",
+                        "device.name": "[@location]",
+                        "device.manufacturer": "QBUS",
+                        "device.model": "Qbus"
+                        }
+                }
+                // *************
+                // codeblock end
+                //**************
+                ]
+            }
+
+        #D3012 Correct defect in stopping influxdb interface when not all docker-compose env variables are defined
+
+3.1.1   #E3111 Externalized node qbusHA conversion table to default HAparms.qbusHa.entityMap
+        #E3112 Changed default class and entitity parameters to support Qbus stepper
+        dockerhub buildx            Build wk275/qbusmqtt & wk275/qbtools 3.1.1.2     

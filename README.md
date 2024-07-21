@@ -1,43 +1,47 @@
-# qbtools-V3.0.1
-The way you install V3.0 is different from V2. 
+# qbtools-V3.1.1.2
+
+For changes see release notes
+
+The way you install v3 is different from v2.
 Instead of installing the environment from a tar file with precustomized softwares, version 3 is installed via definitions in a docker-compose.yaml file.
-Qbtools V3 is a collection of 3 docker images. Together they deliver an environment for integrating QBUS with Homeassistant, Influxdb & Grafana, http devices and mqtt devices.
+Qbtools v3 is a collection of 3 docker images. Together they interface QBUS, Homeassistant, Influxdb & Grafana and http.
+Prerequisites are docker and docker-compose.
 
-Qbtools-V2 was difficult to upgrade due to the possible mix of qbtools and user code. For this reason is qbtools-v3 nodered instance no longer exposed. 
-You need to setup a second nodered server with your own automation scripts and other interfaces. So qbtool's code and your code is clearly separated.
+Qbtools-v2 was difficult to upgrade due to a possible mix of qbtools code and user code. For this reason, qbtools-v3 is no longer exposed. You'll need to setup a second nodered server with your own automation scripts and other interfaces. This way, qbtool's code and your code is clearly separated.
 
-![](https://img.shields.io/badge/release-v3.0.1-blue)                 
+![](https://img.shields.io/badge/release-v3.1.1.2-blue)                 
 ![](https://img.shields.io/badge/arch-arm64-yellow)
 ![](https://img.shields.io/badge/-armv7-yellow) 
 ![](https://img.shields.io/badge/-amd64-yellow)
 <br/>
-![](https://img.shields.io/badge/interfaces_with-qbus_devices-green)
-![](https://img.shields.io/badge/-home_assistant_devices-green)
+![](https://img.shields.io/badge/interface-qbus-green)
+![](https://img.shields.io/badge/-home_assistant-green)
 ![](https://img.shields.io/badge/-influxDB_v2/grafana_statistics-green)
-![](https://img.shields.io/badge/-http_devices-green)
+![](https://img.shields.io/badge/-http-green)
 <br/>
-![](https://img.shields.io/badge/prerequisites-qbus-red)
+![](https://img.shields.io/badge/prerequisites-qbus--controller--with--SDK(DLL)--activated-red)
 ![](https://img.shields.io/badge/-docker-red)
 ![](https://img.shields.io/badge/-docker--compose-red)
 
-![image](https://github.com/wk275/qbtools-V3/assets/55239601/0f7021bb-f8b5-4dcc-b8d8-907f06191826)
+![alt text](image.png)
 
 
 ## Docker images 
 - ### <a href="https://hub.docker.com/r/wk275/qbmos">wk275/qbmos</a>
-qbmos is a customized mosquitto server. Instead of defining a user and password via the standard mosquitto tools, you can directly define them via the docker-compose.yaml environment variables MQTT_USER and MQTT_PASSWORD.
+qbmos is a customized mosquitto server. 
+
+Instead of defining a user and password via the standard mosquitto tools, you can directly define them via the docker-compose.yaml environment variables MQTT_USER and MQTT_PASSWORD.
 
 - ### <a href="https://hub.docker.com/r/wk275/qbusmqtt">wk275/qbusmqtt</a>
 qbusmqtt is a docker image for the Qbus mqtt gateway. (for details about the default qbusmqttgw installation see https://github.com/QbusKoen/QbusMqtt-installer)
 
 - ### <a href="https://hub.docker.com/r/wk275/qbtools">wk275/qbtools</a>
-qbTools is the interface between Qbus devices, Homeassistant devices, InfluxDB/Grafana statistics and http/mqtt devices.
+qbTools is the interface between Qbus, Homeassistant, InfluxDB database & Grafana statistics
 
-  #### qbtools features:
-
+## Qbtools features:
   ##### HAparms.Ha.regexPre is no longer supported. You should use HAparms.qbusHA.entities instead !!!
   
-  - Create Home assistant entities:
+  ### Create Home assistant entities:
     
     Home assistant entities are created automatically for Qbus outputs. This process is based upon a MQTT server and Home assistant discovery. Root topic is homeassistant.
 
@@ -53,57 +57,42 @@ qbTools is the interface between Qbus devices, Homeassistant devices, InfluxDB/G
     |Thermostat      | Climate (heating only)|
     |Scene           | Scene|
     |Gauge           | Sensor|
+    |Stepper         | Number|
 <br/>
 
-  - Create extra HA entities via the ~/qbtools-v3/HA_parms/HAparms.js file - section qbusHA.entities. You'll find an example file in the HA_parms directory after starting the qbtools container.
-    Just rename is to HAparms.js and modify its contents. When saved, the parameters will be picked up by qbtools and the correspondening HA entities will be created after a short period.
+  ### Create extra HA entities 
+  via the ~/qbtools-v3/HA_parms/HAparms.js file - section qbusHA.entities. You'll find an example file in this directory after starting the qbtools container. Just rename is to HAparms.js and modify its contents. When saved, the parameters will be picked up by qbtools and the extra HA entities will be created after a short period.
 
     e.g.
       - create a HA binary_sensor for qbus switch (e.g a garage_door security switch)
       - create a HA sensor for a qbus thermostat
-      - create a HA thermostat for a virtual Qbus thermostat with a temperature sensor of a non qbus MQTT device
       <br/>For details see definitions below.
         ````
         "qbusHa": {
             "entities": [
-                          { "name_regex": "^Virtual_Binary_sensor1$",       // add a HA bynary_sensor for a qbus switch/toggle output with name "Virtual_Binary_sensor1"
+                          { "name_regex": "^Virtual_Binary_sensor1$",     
+                            "Virtual_Binary_sensor1"
                             "attributes":
                                 {
                                     "entity_type": "binary_sensor",
-                                    "device_class": "garage_door",          // see https://www.home-assistant.io/integrations/binary_sensor/
-                                    "payload_on": true,                     // Qbus uses true en false for th switch on and off confition
+                                    "device_class": "garage_door",
+                                    "payload_on": true, 
                                     "payload_off": false
                                 },
                           },
-                          { "name_regex": "^Virtual_HVAC_Therm$",            // add a HA sensor for a qbus thermostat (3 sensors will be created).
-                            "attributes":                                    // One for evry qbus thermostat property.
-                              {                                              // Virtual_HVAC_Therm.currRegime, Virtual_HVAC_Therm.currTemp and Virtual_HVAC_Therm.setTemp.
+                          { "name_regex": "^Virtual_HVAC_Therm$",
+                            "attributes":
+                              {                                              
                                   "entity_type": "sensor",
-                                  "icon": "mdi:thermometer"                  // set icon initially to mdi:thermometer. This can later be changed in the ha.regexPost section below if necessary
+                                  "icon": "mdi:thermometer"
                               },
-                          },
-                          { "name_regex": "^Virtual_HVAC_Therm_Temp1$",      // create a HA thermostat for a Virtual qbus thermostat and use the temperature sensor of a non qbus device
-                            "attributes":
-                              {
-                                  "entity_type": "climate",
-                                  "current_temperature_template": '{{value_json.tmp.value}}',                     // MQTT shellymotion topic property tmp.value
-                                  "current_temperature_topic": "shellies/shellymotion/status"                     // MQTT shellymotion topic 
-                              }
-                          },
-                          { "name_regex": "^Virtual_HVAC_Therm_Temp1$",     // create a HA thermostat for a Virtual qbus thermostat and use the temperature sensor of a non qbus device 
-                            "attributes":
-                              {
-                                  "entity_type": "climate",
-                                  "current_temperature_template": '{{value}}',                                    // use the value of the MQTT shelly topic
-                                  "current_temperature_topic": "shellies/shellyht/sensor/temperature"             // MQTT shelly ht topic
-                              }
                           },
                     ],
                 }
         ````
        
-  - Modify HA entities before creation:
-    You can modify almost every HA entity property before it is send to the HA MQTT discovery topic homeassistant.
+  ### Modify HA entities before creation:
+    You can modify almost every HA entity property before it is sent to the HA MQTT discovery topic homeassistant.
     This is also done via the HAparms.js file in section ha.regexPost. You'll find an example file in the HA_parms directory after starting the qbtools container.
     Just rename is to HAparms.js and modify its contents. When saved, the parameters will be picked up by qbtools and the correspondening HA entities will be modified after a short period.
      <br/>For details see definitions below.
@@ -145,24 +134,36 @@ qbTools is the interface between Qbus devices, Homeassistant devices, InfluxDB/G
                   "name_regex": "shellyplug",
                   "attributes":
                       { "icon": "mdi:power-plug" }
+              },
+              {
+                  "name_regex": ".*",
+                  "attributes":
+                      { "device.identifiers": "[@location]",
+                        "device.name": "[@location]",
+                        "device.manufacturer": "QBUS",
+                        "device.model": "Qbus"
+                      }
               }
           ]
       }
       ````
-- In the HAparms sections you can use following statements
+- In the HAparms sections following statements are allowed:
   
-  - "[@value]" refers to another parameter,
+  - "[@value]" refers to another entity or qbus property,
   - 
        e.g. "name": "[@unique_id]" means: if "name" parameter is not defined, it will get the value of the "unique_id" parameter.
 
   - "[@value#slice(split character, join character, start offset, end offset)]" refers to another parameter and does some slice processing on it, e.g,
+         
          ```
         {
-            "topic": "shellies/shellyplug2/relay",
+            "topic": "cloudapp/QBUSMQTTGW/UL1/UL49/setState",
             "entity_type": "sensor",
-            "name": "test_[@topic#slice(/,_,1,3)]_[@entity_type]",
-            "==> name": "test_shellyplug2_relay_sensor"
+            "name": "test_[@topic#slice(/,_,2,4)]-[@entity_type]",
         },
+     
+        results in "name": "test_UL1_UL49-sensor"
+
         ```
 - HTTP interface:
   
@@ -189,7 +190,7 @@ qbTools is the interface between Qbus devices, Homeassistant devices, InfluxDB/G
   ### qbusGet
 
     ````
-          http://<ipaddress of qbtools server>:51881/qbusGet?topic=Virtual_HVAC_Therm     //(to disstinguish from other installations, in the example docker file all external ports have a prefix 5)
+    http://<ipaddress of qbtools server>:<qbtools port>/qbusGet?topic=Virtual_HVAC_Therm     
     ````
           ==> response
           {
@@ -209,7 +210,7 @@ qbTools is the interface between Qbus devices, Homeassistant devices, InfluxDB/G
 
     ### qbusSet
     ````
-          http://<ipaddress of qbtoolsserver>:51881/qbusSet?topic=Virtual_HVAC_Therm&payload.currRegime=NACHT
+          http://<ipaddress of qbtoolsserver>:<qbtools port>/qbusSet?topic=Virtual_HVAC_Therm&payload.currRegime=NACHT
     ````
           ===> response
           {
@@ -233,7 +234,7 @@ It will
   - create a docker-compose.yaml file in this directory
   - start-up docker containers
 
-- ##### Please choose your own user names and passwords and modify all MQTT_USER and MQTT_PASSWORD environment variables conform !
+- #### Please choose your own user names and passwords and modify all MQTT_USER and MQTT_PASSWORD environment variables conform !
 
 ````
 mkdir ~/qbtools-v3
@@ -325,11 +326,11 @@ docker logs qbtools-v3 -f
   - Add MQTT with following parameters (be sure to specify MQTT exactly, not MQTT JSON,...)
     - Broker = qbmos
     - Port = 1883
-    - User name = appmos                               ### or your user if changed
-    - Password =  NCJDeceoXZBUCBZib28EZD9yxshxzoç2703E ### or your password if changed
-  - hit send & complete
-  <br/> In the overview you should see all your qbus outputs now.
-  - ##### restart your home assistant to refresh the qbus status.
+    - User name = appmos                               or your user if changed
+    - Password =  NCJDeceoXZBUCBZib28EZD9yxshxzoç2703E or your password if changed
+  - Hit send & complete
+
+- #### Restart your home assistant.<br/> After a while you'll see all your qbus outputs in the HA overview
 
 ### InfluxDB v2 customization:
   - Login to InfluxDB on http://<Influxdb server ip address>:58086
@@ -352,13 +353,14 @@ docker logs qbtools-v3 -f
     - hit create 
 
   - copy above parameters: organization, bucket and token to the specific environment variables in the docker-compose.yaml file in the container section qbtools! Be sure that you do not use quotes or a space before or behind the equal sign!
-  - ##### restart all docker containers ! After the restart everything should be working.
-  - ##### Check qbmos, qbusmqtt and qbtools container log files if you have problems in starting up the environment
+  - #### restart all docker containers ! After the restart everything should be working.
+  - #### Check qbmos, qbusmqtt and qbtools container log files if you have problems starting up the environment
 
-## If you have already some components installed yourself
-- if you want to use your MQTT server.
-  <br/> Just copy the docker-compose sections of qbusmqtt and qbtools and modify the MQTT_* environment variables conform your environment setup..
-- if you already have a MQTT server and a qbusmqttgw running: copy the docker-compose qbtools section and modify the MQTT_* environment variables conform your environment setup.
+## if you want to use your MQTT server.
+  <br/> Just define in the docker-compose the sections qbusmqtt and qbtools and modify the MQTT_* environment variables conform your environment setup.
+
+## Do not use other qbusmqtt docker images than wk275/qbusmqtt
+They may contain other binary versions of the qbusmqttgw which are not compliant with qbtools V3.1.1.2
 
 ## Issues and enhancements:
 Please use the issues tab on this git-hub. I will look into it asap.
