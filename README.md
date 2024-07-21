@@ -67,7 +67,7 @@ qbTools is the interface between Qbus, Homeassistant, InfluxDB database & Grafan
       - create a HA binary_sensor for qbus switch (e.g a garage_door security switch)
       - create a HA sensor for a qbus thermostat
       <br/>For details see definitions below.
-        ````
+      
         "qbusHa": {
             "entities": [
                           { "name_regex": "^Virtual_Binary_sensor1$",     
@@ -89,7 +89,7 @@ qbTools is the interface between Qbus, Homeassistant, InfluxDB database & Grafan
                           },
                     ],
                 }
-        ````
+      
        
   ### Modify HA entities before creation:
     You can modify almost every HA entity property before it is sent to the HA MQTT discovery topic homeassistant.
