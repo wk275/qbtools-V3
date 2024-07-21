@@ -42,32 +42,31 @@ qbTools is the interface between Qbus, Homeassistant, InfluxDB database & Grafan
   ##### HAparms.Ha.regexPre is no longer supported. You should use HAparms.qbusHA.entities instead !!!
   
   ### Create Home assistant entities:
-    
-    Home assistant entities are created automatically for Qbus outputs. This process is based upon a MQTT server and Home assistant discovery. Root topic is homeassistant.
 
-    Qbtools rely on a unique qbus output name. So if duplicates, please correct them first in qbus system manager.
+  Home assistant entities are created automatically for Qbus outputs. This process is based upon a MQTT server and Home assistant discovery. Root topic is homeassistant.
+
+  Qbtools rely on a unique qbus output name. So if duplicates, please correct them first in qbus system manager.
     
-    <br/> Following qbus outputs types and HA entity types are supported.
-    
-    |Qbus output type|Home Assistant entity type|
-    |----------------|--------------------------|
-    |Dimmer          | Light|
-    |On/Off          | Switch|
-    |Shutter         | Cover|
-    |Thermostat      | Climate (heating only)|
-    |Scene           | Scene|
-    |Gauge           | Sensor|
-    |Stepper         | Number|
-<br/>
+  Following qbus outputs types and HA entity types are supported.
+  
+  |Qbus output type|Home Assistant entity type|
+  |----------------|--------------------------|
+  |Dimmer          | Light|
+  |On/Off          | Switch|
+  |Shutter         | Cover|
+  |Thermostat      | Climate (heating only)|
+  |Scene           | Scene|
+  |Gauge           | Sensor|
+  |Stepper         | Number|
 
   ### Create extra HA entities 
   via the ~/qbtools-v3/HA_parms/HAparms.js file - section qbusHA.entities. You'll find an example file in this directory after starting the qbtools container. Just rename is to HAparms.js and modify its contents. When saved, the parameters will be picked up by qbtools and the extra HA entities will be created after a short period.
 
-    e.g.
-      - create a HA binary_sensor for qbus switch (e.g a garage_door security switch)
-      - create a HA sensor for a qbus thermostat
-      <br/>For details see definitions below.
-      
+  e.g.
+  - create a HA binary_sensor for qbus switch (e.g a garage_door security switch)
+  - create a HA sensor for a qbus thermostat
+  - For details see definitions below.
+  
         "qbusHa": {
             "entities": [
                           { "name_regex": "^Virtual_Binary_sensor1$",     
@@ -92,67 +91,66 @@ qbTools is the interface between Qbus, Homeassistant, InfluxDB database & Grafan
       
        
   ### Modify HA entities before creation:
-    You can modify almost every HA entity property before it is sent to the HA MQTT discovery topic homeassistant.
-    This is also done via the HAparms.js file in section ha.regexPost. You'll find an example file in the HA_parms directory after starting the qbtools container.
-    Just rename is to HAparms.js and modify its contents. When saved, the parameters will be picked up by qbtools and the correspondening HA entities will be modified after a short period.
-     <br/>For details see definitions below.
-     ````
-       "ha": {
-          "regexPost": [
-              {
-                  "name_regex": "Virtual_HVAC_Therm.currRegime",
-                  "attributes":
-                  {
-                      "icon": "mdi:clipboard-list-outline",
-                  }
-              },
-              {
-                  "name_regex": "Virtual_HVAC_Therm.setTemp",
-                  "attributes":
-                  {
-                      "icon": "mdi:home-thermometer",
-                  }
-              },
-              {
-                  "name_regex": "Virtual_HVAC_Therm.currTemp",
-                  "attributes":
-                  {
-                      "icon": "mdi:temperature-celsius",
-                  }
-              },
-              {
-                  "name_regex": "_Blinds_",
-                  "attributes":
-                      { "device_class": "shutter" }
-              },
-              {
-                  "name_regex": "_Power_",
-                  "attributes":
-                      { "icon": "mdi:power-socket-eu" }
-              },
-              {
-                  "name_regex": "shellyplug",
-                  "attributes":
-                      { "icon": "mdi:power-plug" }
-              },
-              {
-                  "name_regex": ".*",
-                  "attributes":
-                      { "device.identifiers": "[@location]",
-                        "device.name": "[@location]",
-                        "device.manufacturer": "QBUS",
-                        "device.model": "Qbus"
-                      }
-              }
-          ]
+  You can modify almost every HA entity property before it is sent to the HA MQTT discovery topic homeassistant.
+  This is also done via the HAparms.js file in section ha.regexPost. You'll find an example file in the HA_parms directory after starting the qbtools container.
+  Just rename is to HAparms.js and modify its contents. When saved, the parameters will be picked up by qbtools and the correspondening HA entities will be modified after a short period.
+  <br/>For details see definitions below.
+
+      "ha": {
+        "regexPost": [
+            {
+                "name_regex": "Virtual_HVAC_Therm.currRegime",
+                "attributes":
+                {
+                    "icon": "mdi:clipboard-list-outline",
+                }
+            },
+            {
+                "name_regex": "Virtual_HVAC_Therm.setTemp",
+                "attributes":
+                {
+                    "icon": "mdi:home-thermometer",
+                }
+            },
+            {
+                "name_regex": "Virtual_HVAC_Therm.currTemp",
+                "attributes":
+                {
+                    "icon": "mdi:temperature-celsius",
+                }
+            },
+            {
+                "name_regex": "_Blinds_",
+                "attributes":
+                    { "device_class": "shutter" }
+            },
+            {
+                "name_regex": "_Power_",
+                "attributes":
+                    { "icon": "mdi:power-socket-eu" }
+            },
+            {
+                "name_regex": "shellyplug",
+                "attributes":
+                    { "icon": "mdi:power-plug" }
+            },
+            {
+                "name_regex": ".*",
+                "attributes":
+                    { "device.identifiers": "[@location]",
+                      "device.name": "[@location]",
+                      "device.manufacturer": "QBUS",
+                      "device.model": "Qbus"
+                    }
+            }
+        ]
       }
-      ````
+
+
 - In the HAparms sections following statements are allowed:
   
   - "[@value]" refers to another entity or qbus property,
-  - 
-       e.g. "name": "[@unique_id]" means: if "name" parameter is not defined, it will get the value of the "unique_id" parameter.
-
+    e.g. "name": "[@unique_id]" means: if "name" parameter is not defined, it will get the value of the "unique_id" parameter.
   - "[@value#slice(split character, join character, start offset, end offset)]" refers to another parameter and does some slice processing on it, e.g,
          
          ```
@@ -165,11 +163,11 @@ qbTools is the interface between Qbus, Homeassistant, InfluxDB database & Grafan
         results in "name": "test_UL1_UL49-sensor"
 
         ```
-- HTTP interface:
+### HTTP interface:
   
   qbtools has an integrated HTTP server. It has 2 methods: qbusGet and qbusSet and it's parameters should be specified as a flat object. 
   <br/>E.g
-    ````
+  
     default qbus mqtt object:
       {
           "id":"UL106",
@@ -179,53 +177,50 @@ qbTools is the interface between Qbus, Homeassistant, InfluxDB database & Grafan
             },
           "type":"event"
         }
-    ````
-    ````
+  
     flat object:
         {  "id": "UL106",
             "properties.currtemp" = 28,
            "type":"event
         }
-  ````
+  
   ### qbusGet
 
-    ````
     http://<ipaddress of qbtools server>:<qbtools port>/qbusGet?topic=Virtual_HVAC_Therm     
-    ````
-          ==> response
-          {
-            "topic": "cloudapp/QBUSMQTTGW/UL1/UL167/state",
-            "qos": 1,
-            "retain": false,
-            "_msgid": "0285c33dcf41b1a7",
-            "payload": {
-              "id": "UL167",
-              "properties.currRegime": "COMFORT",
-              "properties.currTemp": 30,
-              "properties.setTemp": 22,
-              "type": "state"
-            }
-          }
-    
 
-    ### qbusSet
-    ````
-          http://<ipaddress of qbtoolsserver>:<qbtools port>/qbusSet?topic=Virtual_HVAC_Therm&payload.currRegime=NACHT
-    ````
-          ===> response
-          {
-            "topic": "cloudapp/QBUSMQTTGW/UL1/UL167/setState",
-            "retain": false,
-            "qos": 0,
-            "payload": {
-              "id": "UL167",
-              "type": "state",
-              "properties": {
-                "currRegime": "NACHT"
-              }
-            },
-            "_msgid": "6c22415b7899182a"
+        ==> response
+        {
+          "topic": "cloudapp/QBUSMQTTGW/UL1/UL167/state",
+          "qos": 1,
+          "retain": false,
+          "_msgid": "0285c33dcf41b1a7",
+          "payload": {
+            "id": "UL167",
+            "properties.currRegime": "COMFORT",
+            "properties.currTemp": 30,
+            "properties.setTemp": 22,
+            "type": "state"
           }
+        }
+  
+
+  ### qbusSet
+
+    http://<ipaddress of qbtoolsserver>:<qbtools port>/qbusSet?topic=Virtual_HVAC_Therm&payload.currRegime=NACHT
+        ===> response
+        {
+          "topic": "cloudapp/QBUSMQTTGW/UL1/UL167/setState",
+          "retain": false,
+          "qos": 0,
+          "payload": {
+            "id": "UL167",
+            "type": "state",
+            "properties": {
+              "currRegime": "NACHT"
+            }
+          },
+          "_msgid": "6c22415b7899182a"
+        }
           
 ## How to install a complete qbtools environment from scratch:
 - Open a login session on your server and execute code below.
