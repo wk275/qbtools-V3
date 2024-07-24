@@ -1,4 +1,4 @@
-# qbtools-V3.1.1.2
+# qbtools-V3.1.2
 
 For changes see release notes
 
@@ -9,7 +9,7 @@ Prerequisites are docker and docker-compose.
 
 Qbtools-v2 was difficult to upgrade due to a possible mix of qbtools code and user code. For this reason, qbtools-v3 is no longer exposed. You'll need to setup a second nodered server with your own automation scripts and other interfaces. This way, qbtool's code and your code is clearly separated.
 
-![](https://img.shields.io/badge/release-v3.1.1.2-blue)                 
+![](https://img.shields.io/badge/release-v3.1.2-blue)                 
 ![](https://img.shields.io/badge/arch-arm64-yellow)
 ![](https://img.shields.io/badge/-armv7-yellow) 
 ![](https://img.shields.io/badge/-amd64-yellow)
